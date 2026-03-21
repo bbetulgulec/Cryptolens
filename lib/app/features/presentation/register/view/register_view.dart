@@ -1,4 +1,4 @@
-import 'package:crypto_lens/app/common/enum/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/widgets/app_card.dart';
 import 'package:crypto_lens/app/features/presentation/login/widget/title_text.dart';
@@ -12,7 +12,6 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.richBlack,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

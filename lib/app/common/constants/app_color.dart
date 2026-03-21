@@ -8,4 +8,6 @@ final class AppColor {
   static const Color electricBlue = Color(0xFF34B5FA);
   static const Color cornflowerPurple = Color(0xFFBA9EFF);
   static const Color richBlack = Color(0xFF060E20);
+  static const Color neonBlue = Color(0xff34B5FA);
+  static const Color defaultGray = Color(0xFF40485D);
 }

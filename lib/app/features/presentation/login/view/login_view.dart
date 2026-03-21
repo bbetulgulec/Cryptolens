@@ -1,7 +1,5 @@
-import 'package:crypto_lens/app/common/enum/app_color.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/widgets/app_card.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
 import 'package:crypto_lens/app/features/presentation/login/widget/title_text.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
@@ -13,7 +11,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.richBlack,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

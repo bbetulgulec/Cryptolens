@@ -1,4 +1,4 @@
-import 'package:crypto_lens/app/common/enum/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/widgets/app_button_gradient.dart';
 import 'package:crypto_lens/app/common/widgets/app_text.dart';

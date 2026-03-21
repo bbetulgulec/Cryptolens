@@ -1,4 +1,4 @@
-import 'package:crypto_lens/app/common/enum/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
