@@ -1,4 +1,4 @@
-import 'package:crypto_lens/app/features/presentation/login/view/login_view.dart';
+import 'package:crypto_lens/app/features/presentation/register/view/register_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       debugShowCheckedModeBanner: false,
-      home: const LoginView(),
+      home: const RegisterView(),
     );
   }
 }

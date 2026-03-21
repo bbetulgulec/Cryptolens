@@ -12,6 +12,7 @@ class AppCard extends StatelessWidget {
   final String titleDesc;
   final String emailText;
   final String passwordText;
+  final String? againPasswordText;
   final String? buttonText;
   final String richTextFirst;
   final String richTextSecond;
@@ -25,6 +26,7 @@ class AppCard extends StatelessWidget {
     this.buttonText,
     required this.richTextFirst,
     required this.richTextSecond,
+    this.againPasswordText,
   });
 
   @override
@@ -46,7 +48,13 @@ class AppCard extends StatelessWidget {
               SizedBox(height: context.height * 0.05),
               AppTextField(text: passwordText),
               SizedBox(height: context.height * 0.05),
+              if (againPasswordText != null) ...[
+                AppTextField(text: againPasswordText!),
+              ],
+              SizedBox(height: context.height * 0.05),
+
               AppButtonGradient(buttonText: buttonText),
+
               SizedBox(height: context.height * 0.03),
               RichText(
                 text: TextSpan(
