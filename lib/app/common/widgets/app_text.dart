@@ -41,6 +41,27 @@ class AppText extends StatelessWidget {
       decoration: decoration,
     );
   }
+  factory AppText.big(
+    String text, {
+    Key? key,
+    double? size,
+    Color? color,
+    TextAlign? textAlign,
+    int? maxLines,
+    FontWeight fontWeight = FontWeight.w400,
+    TextDecoration? decoration,
+  }) {
+    return AppText._(
+      text,
+      key: key,
+      fontSize: size ?? 34,
+      fontWeight: fontWeight,
+      color: color,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      decoration: decoration,
+    );
+  }
 
   factory AppText.semiBold(
     String text, {

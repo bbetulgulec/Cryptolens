@@ -1,4 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_theme_data.dart';
+import 'package:crypto_lens/app/features/presentation/home/view/home_view.dart';
 import 'package:crypto_lens/app/features/presentation/main/view/main_view.dart';
 import 'package:flutter/material.dart';
 

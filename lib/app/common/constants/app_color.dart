@@ -10,4 +10,5 @@ final class AppColor {
   static const Color richBlack = Color(0xFF060E20);
   static const Color neonBlue = Color(0xff34B5FA);
   static const Color defaultGray = Color(0xFF40485D);
+  static const Color cloudyBlue = Color(0xFFBEC6E0);
 }
