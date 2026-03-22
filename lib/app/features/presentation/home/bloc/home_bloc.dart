@@ -4,9 +4,14 @@ import 'package:crypto_lens/app/features/presentation/home/bloc/home_state.dart'
 import 'package:crypto_lens/app/features/data/repository/coins_repository.dart';
 import 'package:crypto_lens/core/result/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CoinsRepository _coinsRepository;
+
+  EventTransformer<T> debounce<T>(Duration duration) {
+    return (events, mapper) => events.debounceTime(duration).switchMap(mapper);
+  }
 
   HomeBloc(this._coinsRepository) : super(HomeState.initial()) {
     on<FetchHomeData>((event, emit) async {
@@ -49,6 +54,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
     on<FetchCoinDetail>((event, emit) async {
+      // 🚨 Aynı istekse tekrar atma (çok önemli)
+      if (state.selectedTime == event.time &&
+          state.coinDetail?.uuid == event.uuid) {
+        return;
+      }
+
       emit(
         state.copyWith(
           isBottomSheetLoading: true,
@@ -63,25 +74,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final responseData = result.data?.data as ResponseDataModel?;
 
         if (responseData != null && responseData.coins.isNotEmpty) {
-          // KRİTİK NOKTA: Listenin başındakini değil,
-          // event'ten gelen uuid'ye sahip olan coini buluyoruz.
           final selectedCoin = responseData.coins.firstWhere(
             (c) => c.uuid == event.uuid,
-            orElse: () =>
-                responseData.coins.first, // Bulamazsa mecburen ilkini al
+            orElse: () => responseData.coins.first,
           );
 
           emit(
             state.copyWith(
               isBottomSheetLoading: false,
-              coinDetail: selectedCoin, // Artık doğru coin state'e geçti!
+              coinDetail: selectedCoin,
             ),
           );
         }
       } else {
         emit(state.copyWith(isBottomSheetLoading: false));
       }
-    });
+    }, transformer: debounce(const Duration(milliseconds: 600)));
     on<ToggleFavorite>((event, emit) async {
       // 1. Mevcut favorileri kopyala (Referans hatası olmaması için toList() yapıyoruz)
       final List<String> currentFavorites = List.from(state.favoriteUuids);
@@ -130,6 +138,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         );
       }
+    });
+    on<SearchCoins>((event, emit) {
+      final query = event.query.toLowerCase();
+
+      final filtered = state.coins.where((coin) {
+        return coin.name.toLowerCase().contains(query) ||
+            coin.symbol.toLowerCase().contains(query);
+      }).toList();
+
+      // 🔥 en iyi eşleşeni üste al
+      filtered.sort((a, b) {
+        final aStarts = a.name.toLowerCase().startsWith(query);
+        final bStarts = b.name.toLowerCase().startsWith(query);
+
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return 0;
+      });
+
+      emit(state.copyWith(searchQuery: query, filteredCoins: filtered));
     });
   }
 }

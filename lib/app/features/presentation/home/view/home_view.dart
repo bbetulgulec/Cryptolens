@@ -43,17 +43,24 @@ class HomeView extends StatelessWidget {
             if (state.isLoading && state.coins.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
+            final coinsToShow = state.searchQuery.isEmpty
+                ? state.coins
+                : state.filteredCoins;
             return Column(
               children: [
-                SearchBarRowWidget(),
+                SearchBarRowWidget(
+                  onChanged: (String value) {
+                    context.read<HomeBloc>().add(SearchCoins(value));
+                  },
+                ),
                 TextRowWidget(
                   total24hVolume: formatVolume(state.stats?.total24hVolume),
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: state.coins.length,
+                    itemCount: coinsToShow.length,
                     itemBuilder: (context, index) {
-                      final coin = state.coins[index];
+                      final coin = coinsToShow[index];
                       return AssetsCardWidget(
                         url: coin.iconUrl,
                         name: coin.name,
@@ -72,7 +79,7 @@ class HomeView extends StatelessWidget {
                           context.read<HomeBloc>().add(
                             ToggleFavorite(uuid: coin.uuid),
                           );
-                        }, 
+                        },
                       );
                     },
                   ),

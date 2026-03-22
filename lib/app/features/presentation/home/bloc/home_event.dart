@@ -38,3 +38,12 @@ class Filtered extends HomeEvent {
   @override
   List<Object?> get props => [orderBy, orderDirection];
 }
+
+class SearchCoins extends HomeEvent {
+  final String query;
+
+  const SearchCoins(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}

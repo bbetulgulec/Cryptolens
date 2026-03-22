@@ -15,6 +15,8 @@ class HomeState extends Equatable {
   // YENİ EKLENENLER: UI'daki seçimleri hafızada tutmak için
   final String orderBy;
   final String orderDirection;
+  final String searchQuery;
+  final List<CoinsModel> filteredCoins;
 
   const HomeState({
     required this.isLoading,
@@ -28,6 +30,8 @@ class HomeState extends Equatable {
     required this.successfullFiltered,
     this.orderBy = 'marketCap', // Varsayılan değerler
     this.orderDirection = 'desc',
+    required this.searchQuery,
+    required this.filteredCoins,
   });
 
   factory HomeState.initial() {
@@ -43,6 +47,8 @@ class HomeState extends Equatable {
       successfullFiltered: false,
       orderBy: 'marketCap', // Başlangıçta marketCap seçili gelsin
       orderDirection: 'desc',
+      searchQuery: '',
+      filteredCoins: [],
     );
   }
 
@@ -58,6 +64,8 @@ class HomeState extends Equatable {
     bool? successfullFiltered,
     String? orderBy,
     String? orderDirection,
+    String? searchQuery,
+    List<CoinsModel>? filteredCoins,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
@@ -71,6 +79,8 @@ class HomeState extends Equatable {
       successfullFiltered: successfullFiltered ?? this.successfullFiltered,
       orderBy: orderBy ?? this.orderBy, // Güncelleneni al yoksa mevcut kalsın
       orderDirection: orderDirection ?? this.orderDirection,
+      searchQuery: searchQuery ?? this.searchQuery,
+      filteredCoins: filteredCoins ?? this.filteredCoins,
     );
   }
 
@@ -87,5 +97,7 @@ class HomeState extends Equatable {
     successfullFiltered,
     orderBy,
     orderDirection,
+    searchQuery,
+    filteredCoins,
   ];
 }
