@@ -9,7 +9,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppFunctions.instance.init();
 
-  ServiceLocator.setup();
   runApp(const MyApp());
 }
 

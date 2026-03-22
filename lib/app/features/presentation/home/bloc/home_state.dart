@@ -10,6 +10,7 @@ class HomeState extends Equatable {
   final bool isBottomSheetLoading;
   final CoinsModel? coinDetail;
   final String? selectedTime;
+  final List<String> favoriteUuids;
 
   const HomeState({
     required this.isLoading,
@@ -17,7 +18,9 @@ class HomeState extends Equatable {
     this.stats,
     this.errorMessage,
     this.isBottomSheetLoading = false,
-    this.coinDetail, this.selectedTime,
+    this.coinDetail,
+    this.selectedTime,
+    required this.favoriteUuids,
   });
 
   factory HomeState.initial() {
@@ -29,6 +32,7 @@ class HomeState extends Equatable {
       isBottomSheetLoading: false,
       coinDetail: null,
       selectedTime: "7d",
+      favoriteUuids: [],
     );
   }
 
@@ -40,6 +44,7 @@ class HomeState extends Equatable {
     bool? isBottomSheetLoading,
     CoinsModel? coinDetail,
     String? selectedTime,
+    List<String>? favoriteUuids,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
@@ -49,6 +54,7 @@ class HomeState extends Equatable {
       isBottomSheetLoading: isBottomSheetLoading ?? this.isBottomSheetLoading,
       coinDetail: coinDetail ?? this.coinDetail,
       selectedTime: selectedTime ?? this.selectedTime,
+      favoriteUuids: favoriteUuids ?? this.favoriteUuids,
     );
   }
 
@@ -61,5 +67,6 @@ class HomeState extends Equatable {
     isBottomSheetLoading,
     coinDetail,
     selectedTime,
+    favoriteUuids,
   ];
 }

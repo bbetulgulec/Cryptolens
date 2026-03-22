@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class HomeEvent extends Equatable {
   const HomeEvent();
@@ -12,11 +13,20 @@ class FetchHomeData extends HomeEvent {
 }
 
 class FetchCoinDetail extends HomeEvent {
-  final String uuid; 
+  final String uuid;
   final String time;
 
   const FetchCoinDetail({required this.uuid, required this.time});
 
   @override
   List<Object?> get props => [uuid, time];
+}
+
+class ToggleFavorite extends HomeEvent {
+  final String uuid;
+
+  const ToggleFavorite({required this.uuid});
+
+  @override
+  List<Object?> get props => [uuid];
 }

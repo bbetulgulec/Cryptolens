@@ -12,6 +12,8 @@ class AssetsCardWidget extends StatelessWidget {
   final String dolarText;
   final String ratio;
   final VoidCallback? onTap;
+  final bool isFavorite; // YENİ
+  final VoidCallback? onFavoriteTap; // YENİ
 
   const AssetsCardWidget({
     super.key,
@@ -19,7 +21,10 @@ class AssetsCardWidget extends StatelessWidget {
     required this.name,
     required this.nameAbb,
     required this.dolarText,
-    required this.ratio, this.onTap,
+    required this.ratio,
+    this.onTap,
+    required this.isFavorite,
+    this.onFavoriteTap,
   });
 
   @override
@@ -43,10 +48,7 @@ class AssetsCardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AppText.medium(name, color: AppColor.white),
-                  AppText.regular(
-                    nameAbb,
-                    color: AppColor.white.withAlpha(60),
-                  ),
+                  AppText.regular(nameAbb, color: AppColor.white.withAlpha(60)),
                 ],
               ),
             ),
@@ -62,7 +64,14 @@ class AssetsCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.star_border, color: AppColor.white, size: 20),
+            GestureDetector(
+              onTap: onFavoriteTap, // Yıldızın kendi tıklama alanı
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                color: isFavorite ? Colors.amber : AppColor.white,
+                size: 24,
+              ),
+            ),
           ],
         ).allPadding(context.height * 0.015),
       ),
@@ -70,43 +79,40 @@ class AssetsCardWidget extends StatelessWidget {
   }
 
   Widget _buildCoinIcon() {
-  // 1. Temel Kontrol
-  if (url == null || url!.isEmpty || !url!.startsWith('http')) {
-    return _buildPlaceholder();
+    // 1. Temel Kontrol
+    if (url == null || url!.isEmpty || !url!.startsWith('http')) {
+      return _buildPlaceholder();
+    }
+
+    return SizedBox(width: 40, height: 40, child: _buildImageByExtension(url!));
   }
 
-  return SizedBox(
-    width: 40,
-    height: 40,
-    child: _buildImageByExtension(url!),
-  );
-}
-
-Widget _buildImageByExtension(String imageUrl) {
-  // URL'nin sonu .svg ile mi bitiyor? (Küçük harfe çevirerek kontrol et)
-  if (imageUrl.toLowerCase().endsWith('.svg')) {
-    return SvgPicture.network(
-      imageUrl,
-      fit: BoxFit.contain,
-      placeholderBuilder: (context) => const CircularProgressIndicator(strokeWidth: 2),
-      // SVG bozuksa veya XML hatası verirse buraya düşer
-      errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
-    );
-  } else {
-    // .png, .jpg veya diğer formatlar için normal Image widget'ı
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.contain,
-      // Resim yüklenirken
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return const CircularProgressIndicator(strokeWidth: 2);
-      },
-      // PNG bozuksa veya yüklenemezse buraya düşer
-      errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
-    );
+  Widget _buildImageByExtension(String imageUrl) {
+    // URL'nin sonu .svg ile mi bitiyor? (Küçük harfe çevirerek kontrol et)
+    if (imageUrl.toLowerCase().endsWith('.svg')) {
+      return SvgPicture.network(
+        imageUrl,
+        fit: BoxFit.contain,
+        placeholderBuilder: (context) =>
+            const CircularProgressIndicator(strokeWidth: 2),
+        // SVG bozuksa veya XML hatası verirse buraya düşer
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+      );
+    } else {
+      // .png, .jpg veya diğer formatlar için normal Image widget'ı
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.contain,
+        // Resim yüklenirken
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return const CircularProgressIndicator(strokeWidth: 2);
+        },
+        // PNG bozuksa veya yüklenemezse buraya düşer
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+      );
+    }
   }
-}
 
   Widget _buildPlaceholder() {
     return CircleAvatar(

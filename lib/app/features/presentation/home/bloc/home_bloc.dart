@@ -17,6 +17,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         refresh: event.isRefresh,
       );
 
+      final currentFavorites = _coinsRepository.getFavorites();
+      emit(state.copyWith(favoriteUuids: currentFavorites));
+
       if (result is SuccessDataResult) {
         final responseData = result.data?.data;
 
@@ -78,6 +81,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else {
         emit(state.copyWith(isBottomSheetLoading: false));
       }
+    });
+    on<ToggleFavorite>((event, emit) async {
+      // 1. Mevcut favorileri kopyala (Referans hatası olmaması için toList() yapıyoruz)
+      final List<String> currentFavorites = List.from(state.favoriteUuids);
+
+      // 2. State'i ANINDA güncelle (Kullanıcı yıldıza bastığı saniye renk değişsin)
+      if (currentFavorites.contains(event.uuid)) {
+        currentFavorites.remove(event.uuid);
+      } else {
+        currentFavorites.add(event.uuid);
+      }
+      emit(state.copyWith(favoriteUuids: currentFavorites));
+
+      // 3. Arka planda sessizce Hive'a kaydet (Await et ama emit bekleme)
+      await _coinsRepository.toggleFavorite(event.uuid);
     });
   }
 }

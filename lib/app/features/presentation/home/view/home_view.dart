@@ -60,12 +60,19 @@ class HomeView extends StatelessWidget {
                         nameAbb: coin.symbol,
                         dolarText: "\$${coin.price}",
                         ratio: "${coin.change}%",
+                        isFavorite: state.favoriteUuids.contains(coin.uuid),
                         onTap: () {
                           context.read<HomeBloc>().add(
                             FetchCoinDetail(uuid: coin.uuid, time: "7d"),
                           );
                           BottomSheetWidget.show(context, coin);
                         },
+                        onFavoriteTap: () {
+                          // BLOC'A FAVORİ EVENT'İNİ GÖNDER
+                          context.read<HomeBloc>().add(
+                            ToggleFavorite(uuid: coin.uuid),
+                          );
+                        }, 
                       );
                     },
                   ),
