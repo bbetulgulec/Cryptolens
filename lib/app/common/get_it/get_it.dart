@@ -1,59 +1,43 @@
-/*
-
+import 'package:crypto_lens/app/features/presentation/login/bloc/login_bloc.dart';
+import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:crypto_lens/app/features/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:crypto_lens/app/features/data/repository/auth_repository.dart';
+import 'package:crypto_lens/app/features/presentation/register/bloc/register_bloc.dart';
 
 final getIt = GetIt.instance;
 
-/// **Service provider class managing all dependencies**
 final class ServiceLocator {
-  /// **Main method to call to set up dependencies**
-  void setup() {
-    _setupRouter();
+  static void setup() {
     _setupDataSource();
     _setupRepository();
-    _setupCubit();
-  }
-
-  /// **Router Dependency**
-  void _setupRouter() {
-    // getIt.registerLazySingleton<AppRouter>(() => AppRouter());
+    _setupBloc();
   }
 
   /// **DataSource Dependency**
-  void _setupDataSource() {
-    getIt
-      ..registerLazySingleton<TestRemoteDatasource>(
-        TestRemoteDatasourceImpl.new,
-      );
-    
+  static void _setupDataSource() {
+    // Supabase kullanan Remote Datasource
+    getIt.registerLazySingleton<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(),
+    );
   }
 
   /// **Repository Dependency**
-  void _setupRepository() {
-    getIt
-      ..registerLazySingleton<TestRepository>(
-        () => TestRepositoryImpl(
-          remoteDatasource: getIt<TestRemoteDatasource>(),
-          localDatasource: getIt<TestLocalDatasource>(),
-        ),
-      );
-   
+  static void _setupRepository() {
+    // Datasource'u GetIt içinden çekerek Repository'ye veriyoruz
+    getIt.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(remoteDatasource: getIt<AuthRemoteDatasource>()),
+    );
   }
 
-  /// **BLoC, Cubit and ViewModel Dependency**
-  void _setupCubit() {
-    getIt
-      ..registerLazySingleton<OnboardingCubit>(OnboardingCubit.new)
-      ..registerLazySingleton<MainCubit>(
-        () => MainCubit(testRepository: getIt<TestRepository>()),
-      );
-      
-  }
-
-  Future<void> reset() async {
-    await getIt.reset();
-    setup();
+  /// **BLoC Dependency**
+  static void _setupBloc() {
+    // RegisterBloc her ihtiyaç duyulduğunda yeni bir instance oluşturması için
+    // registerFactory kullanmak BLoC'lar için daha sağlıklıdır (sayfa kapanınca temizlenir).
+    getIt.registerFactory<RegisterBloc>(
+      () => RegisterBloc(getIt<AuthRepository>()),
+    );
+    getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt<AuthRepository>()));
+    getIt.registerFactory<MainBloc>(() => MainBloc(getIt<AuthRepository>()));
   }
 }
-
-*/
