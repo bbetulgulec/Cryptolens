@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class FavoritesEvent extends Equatable {
+  const FavoritesEvent();
   @override
   List<Object?> get props => [];
 }
 
-class FetchHomeData extends HomeEvent {
+class FetchHomeData extends FavoritesEvent {
   final bool isRefresh;
   const FetchHomeData({this.isRefresh = false});
 }
 
-class FetchCoinDetail extends HomeEvent {
+class FetchCoinDetail extends FavoritesEvent {
   final String uuid;
   final String time;
 
@@ -21,7 +21,7 @@ class FetchCoinDetail extends HomeEvent {
   List<Object?> get props => [uuid, time];
 }
 
-class ToggleFavorite extends HomeEvent {
+class ToggleFavorite extends FavoritesEvent {
   final String uuid;
 
   const ToggleFavorite({required this.uuid});

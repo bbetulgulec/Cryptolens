@@ -1,8 +1,15 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_widget.dart';
+import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_bloc.dart';
+import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_event.dart';
+import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_state.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/assets_card_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesView extends StatelessWidget {
   const FavoritesView({super.key});
@@ -10,13 +17,46 @@ class FavoritesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppText.big("Favorites", color: AppColor.white),
-      //    AssetsCardWidget(onTap: () => BottomSheetWidget.show(context)),
-        ],
-      ).symmetricPadding(horizontal: context.width * 0.03),
+      child: BlocProvider(
+        create: (context) => getIt<FavoritesBloc>()..add(const FetchHomeData()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText.big("Favorites", color: AppColor.white),
+            Expanded(
+              child: BlocBuilder<FavoritesBloc, FavoriteState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return ListView.builder(
+                    itemCount: state.coins.length,
+                    itemBuilder: (context, index) {
+                      final coin = state.coins[index];
+                      return AssetsCardWidget(
+                        url: coin.iconUrl,
+                        onTap: () => BottomSheetWidget.show(context, coin),
+                        name: coin.name,
+                        nameAbb: coin.symbol,
+                        dolarText:
+                            "\$${double.tryParse(coin.price)?.toStringAsFixed(2) ?? coin.price}",
+                        ratio: "${coin.change}%",
+                        isFavorite: true,
+                        onFavoriteTap: () {
+                          context.read<FavoritesBloc>().add(
+                            ToggleFavorite(uuid: coin.uuid),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ).symmetricPadding(horizontal: context.width * 0.03),
+      ),
     );
   }
 }

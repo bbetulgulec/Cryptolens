@@ -1,6 +1,7 @@
 import 'package:crypto_lens/app/features/data/datasource/local/coin_local_datasource.dart';
 import 'package:crypto_lens/app/features/data/datasource/remote/coins_remote_datasource.dart';
 import 'package:crypto_lens/app/features/data/repository/coins_repository.dart';
+import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
@@ -57,12 +58,15 @@ final class ServiceLocator {
   }
 
   /// **BLoC Dependency**
-  static void _setupBloc() {
+ static void _setupBloc() {
     getIt.registerFactory<RegisterBloc>(
       () => RegisterBloc(getIt<AuthRepository>()),
     );
     getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt<AuthRepository>()));
     getIt.registerFactory<MainBloc>(() => MainBloc(getIt<AuthRepository>()));
     getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt<CoinsRepository>()));
+    
+    // FAVORITES BLOC KAYDI BURAYA:
+    getIt.registerFactory<FavoritesBloc>(() => FavoritesBloc(getIt<CoinsRepository>()));
   }
 }
