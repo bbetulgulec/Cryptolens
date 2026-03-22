@@ -36,7 +36,20 @@ class FavoritesView extends StatelessWidget {
                       final coin = state.coins[index];
                       return AssetsCardWidget(
                         url: coin.iconUrl,
-                        onTap: () => BottomSheetWidget.show(context, coin),
+
+                        // favorites_view.dart içindeki onTap:
+                        onTap: () {
+                          // 1. HomeBloc'u uyar ki BottomSheet içindeki BlocBuilder tetiklensin
+                       
+
+                          // 2. FavoritesBloc'u uyar ki kendi state'ini güncellesin (opsiyonel ama tutarlılık için iyi)
+                          context.read<FavoritesBloc>().add(
+                            FetchCoinDetail(uuid: coin.uuid, time: "7d"),
+                          );
+
+                          // 3. BottomSheet'i aç
+                          BottomSheetWidget.show(context, coin);
+                        },
                         name: coin.name,
                         nameAbb: coin.symbol,
                         dolarText:

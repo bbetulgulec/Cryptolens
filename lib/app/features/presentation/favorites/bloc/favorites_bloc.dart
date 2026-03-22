@@ -1,5 +1,4 @@
 // DÜZELTME: Event tipini FavoritesEvent yapıyoruz
-import 'package:crypto_lens/app/features/data/model/coins_model.dart';
 import 'package:crypto_lens/app/features/data/repository/coins_repository.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_event.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_state.dart';
@@ -73,6 +72,32 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
           coins: updatedCoins, // Liste anlık daralsın
         ),
       );
+    });
+    // favorites_bloc.dart
+
+    // favorites_bloc.dart
+
+    on<FetchCoinDetail>((event, emit) async {
+      // ESKİ VERİ HATASINI ÇÖZEN KISIM: Yeni istekte coinDetail'i null yapıyoruz
+      emit(state.copyWith(isLoading: true, coinDetail: null));
+
+      // Repository metodunu mevcut haliyle (sadece time ile) çağırıyoruz
+      final result = await _coinsRepository.fetchCoinDetails(time: event.time);
+
+      if (result is SuccessDataResult) {
+        final responseData = result.data?.data;
+        if (responseData != null) {
+          // Yapıyı bozmadan, gelen listeden event'ten gelen uuid'ye sahip coini buluyoruz
+          final selectedCoin = responseData.coins.firstWhere(
+            (c) => c.uuid == event.uuid,
+            orElse: () => responseData.coins.first,
+          );
+
+          emit(state.copyWith(isLoading: false, coinDetail: selectedCoin));
+        }
+      } else {
+        emit(state.copyWith(isLoading: false));
+      }
     });
   }
 }
