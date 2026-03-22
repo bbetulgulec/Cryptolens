@@ -1,4 +1,5 @@
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
+import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_widget.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_state.dart';
@@ -59,6 +60,7 @@ class HomeView extends StatelessWidget {
                         nameAbb: coin.symbol,
                         dolarText: "\$${coin.price}",
                         ratio: "${coin.change}%",
+                        onTap: () => BottomSheetWidget.show(context),
                       );
                     },
                   ),

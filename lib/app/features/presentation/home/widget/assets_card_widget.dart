@@ -11,6 +11,7 @@ class AssetsCardWidget extends StatelessWidget {
   final String nameAbb;
   final String dolarText;
   final String ratio;
+  final VoidCallback? onTap;
 
   const AssetsCardWidget({
     super.key,
@@ -18,50 +19,53 @@ class AssetsCardWidget extends StatelessWidget {
     required this.name,
     required this.nameAbb,
     required this.dolarText,
-    required this.ratio,
+    required this.ratio, this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final Color ratioColor = ratio.startsWith('-') ? Colors.red : Colors.green;
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: AppColor.midnightBlue,
-      elevation: 4,
-      child: Row(
-        children: [
-          _buildCoinIcon(),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppText.medium(name, color: AppColor.white),
-                AppText.regular(
-                  nameAbb,
-                  color: AppColor.white.withOpacity(0.6),
-                ),
-              ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: AppColor.midnightBlue,
+        elevation: 4,
+        child: Row(
+          children: [
+            _buildCoinIcon(),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppText.medium(name, color: AppColor.white),
+                  AppText.regular(
+                    nameAbb,
+                    color: AppColor.white.withOpacity(0.6),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppText.medium(dolarText, color: AppColor.white),
-                AppText.regular(ratio, color: ratioColor),
-              ],
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppText.medium(dolarText, color: AppColor.white),
+                  AppText.regular(ratio, color: ratioColor),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          const Icon(Icons.star_border, color: AppColor.white, size: 20),
-        ],
-      ).allPadding(context.height * 0.015),
+            const SizedBox(width: 8),
+            const Icon(Icons.star_border, color: AppColor.white, size: 20),
+          ],
+        ).allPadding(context.height * 0.015),
+      ),
     );
   }
 
