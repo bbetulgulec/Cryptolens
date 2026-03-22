@@ -10,7 +10,9 @@ class ResponseDataModel extends Equatable {
 
   factory ResponseDataModel.fromMap(Map<String, dynamic> map) {
     return ResponseDataModel(
-      stats: StatsModel.fromMap(map['stats'] as Map<String, dynamic>),
+      stats: map['stats'] != null
+          ? StatsModel.fromMap(map['stats'] as Map<String, dynamic>)
+          : StatsModel.fromMap({}),
       coins: (map['coins'] as List)
           .map((coinMap) => CoinsModel.fromMap(coinMap as Map<String, dynamic>))
           .toList(),

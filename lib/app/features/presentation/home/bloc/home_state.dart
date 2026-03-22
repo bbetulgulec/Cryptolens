@@ -4,16 +4,20 @@ import 'package:equatable/equatable.dart';
 
 class HomeState extends Equatable {
   final bool isLoading;
-  final List<CoinsModel> coins; 
+  final List<CoinsModel> coins;
   final StatsModel? stats;
   final String? errorMessage;
-  
+  final bool isBottomSheetLoading;
+  final CoinsModel? coinDetail;
+  final String? selectedTime;
 
   const HomeState({
     required this.isLoading,
     this.coins = const [],
     this.stats,
     this.errorMessage,
+    this.isBottomSheetLoading = false,
+    this.coinDetail, this.selectedTime,
   });
 
   factory HomeState.initial() {
@@ -22,6 +26,9 @@ class HomeState extends Equatable {
       coins: [],
       stats: null,
       errorMessage: null,
+      isBottomSheetLoading: false,
+      coinDetail: null,
+      selectedTime: "7d",
     );
   }
 
@@ -30,15 +37,29 @@ class HomeState extends Equatable {
     List<CoinsModel>? coins,
     StatsModel? stats,
     String? errorMessage,
+    bool? isBottomSheetLoading,
+    CoinsModel? coinDetail,
+    String? selectedTime,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
       coins: coins ?? this.coins,
       stats: stats ?? this.stats,
       errorMessage: errorMessage,
+      isBottomSheetLoading: isBottomSheetLoading ?? this.isBottomSheetLoading,
+      coinDetail: coinDetail ?? this.coinDetail,
+      selectedTime: selectedTime ?? this.selectedTime,
     );
   }
 
   @override
-  List<Object?> get props => [isLoading, coins, stats, errorMessage];
+  List<Object?> get props => [
+    isLoading,
+    coins,
+    stats,
+    errorMessage,
+    isBottomSheetLoading,
+    coinDetail,
+    selectedTime,
+  ];
 }

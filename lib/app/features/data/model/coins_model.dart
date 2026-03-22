@@ -53,6 +53,7 @@ class CoinsModel extends Equatable {
       name: map['name'] as String,
       color: map['color'] as String?,
       iconUrl: map['iconUrl'] as String,
+      marketCap: map['marketCap']?.toString(),
       price: map['price'] as String,
       change: map['change'] as String,
       rank: map['rank'] as int,

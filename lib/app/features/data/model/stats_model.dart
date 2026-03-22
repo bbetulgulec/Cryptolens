@@ -18,12 +18,15 @@ class StatsModel extends Equatable {
 
   factory StatsModel.fromMap(Map<String, dynamic> map) {
     return StatsModel(
-      total: map['total'],
-      totalCoins: map['totalCoins'],
-      totalMarkets: map['totalMarkets'],
-      totalExchanges: map['totalExchanges'],
-      totalMarketCap: map['totalMarketCap'],
-      total24hVolume: map['total24hVolume'],
+      // map['total'] gelmeyebilir veya string gelebilir, garantiye alalım:
+      total: int.tryParse(map['total']?.toString() ?? '0') ?? 0,
+      totalCoins: int.tryParse(map['totalCoins']?.toString() ?? '0') ?? 0,
+      totalMarkets: int.tryParse(map['totalMarkets']?.toString() ?? '0') ?? 0,
+      totalExchanges:
+          int.tryParse(map['totalExchanges']?.toString() ?? '0') ?? 0,
+      // Bunlar zaten String ama null kontrolü ekleyelim:
+      totalMarketCap: map['totalMarketCap']?.toString() ?? '0',
+      total24hVolume: map['total24hVolume']?.toString() ?? '0',
     );
   }
   StatsModel copyWith({

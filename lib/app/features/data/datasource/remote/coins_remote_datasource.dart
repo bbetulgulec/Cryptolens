@@ -6,6 +6,7 @@ import 'package:crypto_lens/core/dio_manager/dio_manager.dart';
 
 abstract class CoinsRemoteDatasource {
   Future<ApiResponseModel<ResponseModel>> fetchLiveAssets();
+  Future<ApiResponseModel<ResponseModel>> fetchCoinDetails(String time);
 }
 
 class CoinsRemoteDatasourceImpl implements CoinsRemoteDatasource {
@@ -20,6 +21,20 @@ class CoinsRemoteDatasourceImpl implements CoinsRemoteDatasource {
     if (!apiResponseModel.isSuccess || apiResponseModel.data == null) {
       return ApiResponseModel.error(ApiErrorModel(message: 'No data'));
     }
+    final responseModel = ResponseModel.fromMap(apiResponseModel.data!);
+    return ApiResponseModel.success(responseModel);
+  }
+
+  @override
+  Future<ApiResponseModel<ResponseModel>> fetchCoinDetails(String time) async {
+    final apiResponseModel = await dioApiManager.get<Map<String, dynamic>>(
+      '?timePeriod=$time', 
+    );
+
+    if (!apiResponseModel.isSuccess || apiResponseModel.data == null) {
+      return ApiResponseModel.error(ApiErrorModel(message: 'No data'));
+    }
+
     final responseModel = ResponseModel.fromMap(apiResponseModel.data!);
     return ApiResponseModel.success(responseModel);
   }

@@ -45,7 +45,7 @@ class AssetsCardWidget extends StatelessWidget {
                   AppText.medium(name, color: AppColor.white),
                   AppText.regular(
                     nameAbb,
-                    color: AppColor.white.withOpacity(0.6),
+                    color: AppColor.white.withAlpha(60),
                   ),
                 ],
               ),
@@ -111,7 +111,7 @@ Widget _buildImageByExtension(String imageUrl) {
   Widget _buildPlaceholder() {
     return CircleAvatar(
       radius: 20,
-      backgroundColor: Colors.white.withOpacity(0.1),
+      backgroundColor: Colors.white.withAlpha(10),
       child: const Icon(Icons.currency_bitcoin, color: Colors.amber, size: 20),
     );
   }

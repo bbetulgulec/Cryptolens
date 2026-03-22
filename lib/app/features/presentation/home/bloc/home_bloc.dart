@@ -18,13 +18,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       );
 
       if (result is SuccessDataResult) {
-        final responseData = result.data?.data as ResponseDataModel?;
+        final responseData = result.data?.data;
 
         if (responseData != null) {
           emit(
             state.copyWith(
               isLoading: false,
-              coins: responseData.coins, 
+              coins: responseData.coins,
               stats: responseData.stats,
             ),
           );
@@ -43,6 +43,40 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             errorMessage: result.message ?? "An error occurred",
           ),
         );
+      }
+    });
+    on<FetchCoinDetail>((event, emit) async {
+      emit(
+        state.copyWith(
+          isBottomSheetLoading: true,
+          selectedTime: event.time,
+          errorMessage: null,
+        ),
+      );
+
+      final result = await _coinsRepository.fetchCoinDetails(time: event.time);
+
+      if (result is SuccessDataResult) {
+        final responseData = result.data?.data as ResponseDataModel?;
+
+        if (responseData != null && responseData.coins.isNotEmpty) {
+          // KRİTİK NOKTA: Listenin başındakini değil,
+          // event'ten gelen uuid'ye sahip olan coini buluyoruz.
+          final selectedCoin = responseData.coins.firstWhere(
+            (c) => c.uuid == event.uuid,
+            orElse: () =>
+                responseData.coins.first, // Bulamazsa mecburen ilkini al
+          );
+
+          emit(
+            state.copyWith(
+              isBottomSheetLoading: false,
+              coinDetail: selectedCoin, // Artık doğru coin state'e geçti!
+            ),
+          );
+        }
+      } else {
+        emit(state.copyWith(isBottomSheetLoading: false));
       }
     });
   }

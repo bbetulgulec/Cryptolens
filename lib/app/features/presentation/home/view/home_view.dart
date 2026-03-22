@@ -60,7 +60,12 @@ class HomeView extends StatelessWidget {
                         nameAbb: coin.symbol,
                         dolarText: "\$${coin.price}",
                         ratio: "${coin.change}%",
-                        onTap: () => BottomSheetWidget.show(context),
+                        onTap: () {
+                          context.read<HomeBloc>().add(
+                            FetchCoinDetail(uuid: coin.uuid, time: "7d"),
+                          );
+                          BottomSheetWidget.show(context, coin);
+                        },
                       );
                     },
                   ),
