@@ -3,7 +3,12 @@ import 'package:crypto_lens/app/common/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class AppButtonGradient extends StatelessWidget {
-  const AppButtonGradient({super.key, required this.buttonText});
+  final VoidCallback onPressed;
+  const AppButtonGradient({
+    super.key,
+    required this.buttonText,
+    required this.onPressed,
+  });
 
   final String? buttonText;
 
@@ -19,7 +24,7 @@ class AppButtonGradient extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,

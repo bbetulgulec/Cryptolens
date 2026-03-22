@@ -1,5 +1,4 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/widgets/app_button_gradient.dart';
 import 'package:crypto_lens/app/common/widgets/app_text.dart';
 import 'package:crypto_lens/app/common/widgets/app_textField.dart';
@@ -16,6 +15,9 @@ class AppCard extends StatelessWidget {
   final String? buttonText;
   final String richTextFirst;
   final String richTextSecond;
+  final VoidCallback onPressed;
+    final VoidCallback onTap;
+
 
   const AppCard({
     super.key,
@@ -26,7 +28,7 @@ class AppCard extends StatelessWidget {
     this.buttonText,
     required this.richTextFirst,
     required this.richTextSecond,
-    this.againPasswordText,
+    this.againPasswordText, required this.onPressed, required this.onTap,
   });
 
   @override
@@ -53,22 +55,25 @@ class AppCard extends StatelessWidget {
               ],
               SizedBox(height: context.height * 0.05),
 
-              AppButtonGradient(buttonText: buttonText),
+              AppButtonGradient(buttonText: buttonText, onPressed: onPressed,),
 
               SizedBox(height: context.height * 0.03),
-              RichText(
-                text: TextSpan(
-                  text: richTextFirst,
-                  style: const TextStyle(color: AppColor.skyBlue),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: richTextSecond,
-                      style: const TextStyle(
-                        color: AppColor.cornflowerPurple,
-                        fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: onTap,
+                child: RichText(
+                  text: TextSpan(
+                    text: richTextFirst,
+                    style: const TextStyle(color: AppColor.skyBlue),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: richTextSecond,
+                        style: const TextStyle(
+                          color: AppColor.cornflowerPurple,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

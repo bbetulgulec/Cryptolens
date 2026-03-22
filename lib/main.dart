@@ -1,6 +1,6 @@
 import 'package:crypto_lens/app/common/constants/app_theme_data.dart';
-import 'package:crypto_lens/app/features/presentation/home/view/home_view.dart';
-import 'package:crypto_lens/app/features/presentation/main/view/main_view.dart';
+import 'package:crypto_lens/app/features/presentation/login/view/login_view.dart';
+import 'package:crypto_lens/core/helpers/navigation_helper/navigation_helper.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,10 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      navigatorKey: Navigation.navigationKey,
       theme: AppThemeData.themeData,
       debugShowCheckedModeBanner: false,
-      home: const MainView(),
+      home: const LoginView(),
     );
   }
 }
