@@ -18,7 +18,7 @@ class BottomBarWidget extends StatelessWidget {
         builder: (context, state) {
           return NavigationBar(
             selectedIndex: state.selectedIndex,
-            onDestinationSelected: (index){
+            onDestinationSelected: (index) {
               context.read<MainBloc>().add(MainTabChanged(index));
             },
             destinations: [
@@ -26,14 +26,8 @@ class BottomBarWidget extends StatelessWidget {
                 icon: Icon(Icons.account_balance_wallet),
                 label: "Home",
               ),
-              NavigationDestination(
-                icon: Icon(Icons.query_stats),
-                label: "Analysis",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.swap_horiz),
-                label: "Trade",
-              ),
+              NavigationDestination(icon: Icon(Icons.star), label: "Favorites"),
+
               NavigationDestination(
                 icon: Icon(Icons.settings),
                 label: "Settings",

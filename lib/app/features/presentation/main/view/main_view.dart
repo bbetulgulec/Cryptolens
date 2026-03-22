@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/features/presentation/favorites/view/favorites_view.dart';
 import 'package:crypto_lens/app/features/presentation/home/view/home_view.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_state.dart';
@@ -11,13 +12,9 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const HomeView(), // 0. index: Burası açılacak
-      const Center(
-        child: Text("Analysis", style: TextStyle(color: Colors.white)),
-      ),
-      const Center(
-        child: Text("Trade", style: TextStyle(color: Colors.white)),
-      ),
+      const HomeView(),
+      const FavoritesView(),
+
       const Center(
         child: Text("Settings", style: TextStyle(color: Colors.white)),
       ),
