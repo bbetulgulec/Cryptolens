@@ -4,6 +4,7 @@ final class AppColor {
   static const Color midnightBlue = Color(0xFF192540);
   static const Color white = Color(0XFFFFFFFF);
   static const Color black = Color(0XFF000000);
+  static const Color red = Color.fromARGB(255, 243, 47, 47);
 
   static const Color skyBlue = Color(0xFFA3AAC4);
   static const Color modernViolet = Color(0xFF8455EF);

@@ -1,12 +1,10 @@
-
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/filter_bottomsheet_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class SearchBarRowWidget extends StatelessWidget {
-  const SearchBarRowWidget({
-    super.key,
-  });
+  const SearchBarRowWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +17,12 @@ class SearchBarRowWidget extends StatelessWidget {
           ),
         ),
         SizedBox(width: context.width * 0.07),
-        Icon(Icons.tune, color: AppColor.cloudyBlue),
+        MaterialButton(
+          onPressed: () {
+            FilterBottomSheetWidget.show(context);
+          },
+          child: Icon(Icons.tune, color: AppColor.cloudyBlue),
+        ),
       ],
     );
   }

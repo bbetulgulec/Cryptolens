@@ -27,11 +27,6 @@ class BottomBarWidget extends StatelessWidget {
                 label: "Home",
               ),
               NavigationDestination(icon: Icon(Icons.star), label: "Favorites"),
-
-              NavigationDestination(
-                icon: Icon(Icons.settings),
-                label: "Settings",
-              ),
             ],
           );
         },
