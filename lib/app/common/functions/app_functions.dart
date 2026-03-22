@@ -1,6 +1,5 @@
 
 import 'package:crypto_lens/app/common/config/config.dart';
-import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/core/helpers/device/device_info_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -3,7 +3,8 @@ import 'package:crypto_lens/app/common/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class TextRowWidget extends StatelessWidget {
-  const TextRowWidget({super.key});
+  final String total24hVolume;
+  const TextRowWidget({super.key, required this.total24hVolume});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class TextRowWidget extends StatelessWidget {
 
       children: [
         AppText.big("Live Assets", color: AppColor.white),
-        AppText.medium("24h Vol: \$4.2B", color: AppColor.neonBlue),
+        AppText.medium(total24hVolume, color: AppColor.neonBlue),
       ],
     );
   }

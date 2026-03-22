@@ -1,3 +1,6 @@
+import 'package:crypto_lens/app/features/data/datasource/remote/coins_remote_datasource.dart';
+import 'package:crypto_lens/app/features/data/repository/coins_repository.dart';
+import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -20,6 +23,9 @@ final class ServiceLocator {
     getIt.registerLazySingleton<AuthRemoteDatasource>(
       () => AuthRemoteDatasourceImpl(),
     );
+    getIt.registerLazySingleton<CoinsRemoteDatasource>(
+      () => CoinsRemoteDatasourceImpl(),
+    );
   }
 
   /// **Repository Dependency**
@@ -27,6 +33,11 @@ final class ServiceLocator {
     // Datasource'u GetIt içinden çekerek Repository'ye veriyoruz
     getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(remoteDatasource: getIt<AuthRemoteDatasource>()),
+    );
+    getIt.registerLazySingleton<CoinsRepository>(
+      () => CoinsRepositoryImpl(
+        coinsRemoteDatasource: getIt<CoinsRemoteDatasource>(),
+      ),
     );
   }
 
@@ -39,5 +50,6 @@ final class ServiceLocator {
     );
     getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt<AuthRepository>()));
     getIt.registerFactory<MainBloc>(() => MainBloc(getIt<AuthRepository>()));
+    getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt<CoinsRepository>()));
   }
 }

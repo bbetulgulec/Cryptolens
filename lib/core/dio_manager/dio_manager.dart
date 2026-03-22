@@ -20,7 +20,7 @@ class DioApiManager {
         responseHeader: true,
         requestHeader: true,
       ),
-      if (token != null) AuthInterceptor(token: token), // Token management
+      if (token != null) AuthInterceptor(), // Token management
       RetryInterceptor(dio: _dio), // Auth retry management
       ErrorLoggingInterceptor(), // Error logging
     ]);

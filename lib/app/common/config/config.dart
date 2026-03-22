@@ -6,9 +6,9 @@ final class Config {
   static String get apiBaseUrl {
     switch (currentEnvironment) {
       case Environment.production:
-        return 'https://xxx.com/api/prod';
+        return 'https://api.coinranking.com/v2/coins';
       case Environment.development:
-        return 'https://xxx.com/api/dev';
+        return 'https://api.coinranking.com/v2/coins';
     }
   }
 
