@@ -14,17 +14,17 @@ class PaginationModel extends Equatable {
     this.nextCursor,
     this.previousCursor,
   });
-
+  // PaginationModel.fromMap içini şu şekilde değiştir:
   factory PaginationModel.fromMap(Map<String, dynamic> map) {
     return PaginationModel(
-      limit: (map['limit'] as num).toInt(),
-      hasNextPage: map['hasNextPage'] as bool? ?? false,
-      hasPreviousPage: map['hasPreviousPage'] as bool? ?? false,
-      nextCursor: map['nextCursor'] as String?, 
-      previousCursor: map['previousCursor'] as String?,
+      // map['limit'] null gelirse uygulama çökmesin diye:
+      limit: int.tryParse(map['limit']?.toString() ?? '50') ?? 50,
+      hasNextPage: map['hasNextPage'] == true,
+      hasPreviousPage: map['hasPreviousPage'] == true,
+      nextCursor: map['nextCursor']?.toString(),
+      previousCursor: map['previousCursor']?.toString(),
     );
   }
-
   @override
   List<Object?> get props => [
     limit,

@@ -97,5 +97,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // 3. Arka planda sessizce Hive'a kaydet (Await et ama emit bekleme)
       await _coinsRepository.toggleFavorite(event.uuid);
     });
+    on<Filtered>((event, emit) async {
+      // 1. Önce State'teki seçimleri güncelle ve loading başlat
+      emit(
+        state.copyWith(
+          isLoading: true,
+          orderBy: event.orderBy,
+          orderDirection: event.orderDirection,
+        ),
+      );
+
+      // 2. Repository'den yeni filtrelerle veriyi çek
+      final result = await _coinsRepository.fetchLiveAssetsData(
+        orderBy: event.orderBy,
+        orderDirection: event.orderDirection,
+      );
+
+      // 3. Sonucu emit et (Success/Error durumuna göre)
+      if (result is SuccessDataResult) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            coins: result.data?.data?.coins ?? [],
+            successfullFiltered: !state.successfullFiltered,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: "Filtreleme başarısız",
+          ),
+        );
+      }
+    });
   }
 }

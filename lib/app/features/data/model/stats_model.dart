@@ -16,15 +16,13 @@ class StatsModel extends Equatable {
     required this.total24hVolume,
   });
 
+  // stats_model.dart
   factory StatsModel.fromMap(Map<String, dynamic> map) {
     return StatsModel(
-      // map['total'] gelmeyebilir veya string gelebilir, garantiye alalım:
-      total: int.tryParse(map['total']?.toString() ?? '0') ?? 0,
-      totalCoins: int.tryParse(map['totalCoins']?.toString() ?? '0') ?? 0,
-      totalMarkets: int.tryParse(map['totalMarkets']?.toString() ?? '0') ?? 0,
-      totalExchanges:
-          int.tryParse(map['totalExchanges']?.toString() ?? '0') ?? 0,
-      // Bunlar zaten String ama null kontrolü ekleyelim:
+      total: map['total'] as int? ?? 0,
+      totalCoins: map['totalCoins'] as int? ?? 0,
+      totalMarkets: map['totalMarkets'] as int? ?? 0,
+      totalExchanges: map['totalExchanges'] as int? ?? 0,
       totalMarketCap: map['totalMarketCap']?.toString() ?? '0',
       total24hVolume: map['total24hVolume']?.toString() ?? '0',
     );

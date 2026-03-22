@@ -8,14 +8,27 @@ class ResponseDataModel extends Equatable {
 
   const ResponseDataModel({required this.stats, required this.coins});
 
+  // ResponseDataModel.fromMap içini şu şekilde değiştir:
   factory ResponseDataModel.fromMap(Map<String, dynamic> map) {
     return ResponseDataModel(
       stats: map['stats'] != null
           ? StatsModel.fromMap(map['stats'] as Map<String, dynamic>)
-          : StatsModel.fromMap({}),
-      coins: (map['coins'] as List)
-          .map((coinMap) => CoinsModel.fromMap(coinMap as Map<String, dynamic>))
-          .toList(),
+          : const StatsModel(
+              total: 0,
+              totalCoins: 0,
+              totalMarkets: 0,
+              totalExchanges: 0,
+              totalMarketCap: '0',
+              total24hVolume: '0',
+            ),
+      coins:
+          (map['coins'] as List?) // Listeyi nullable olarak al
+              ?.map(
+                (coinMap) =>
+                    CoinsModel.fromMap(coinMap as Map<String, dynamic>),
+              )
+              .toList() ?? // Liste null ise boş liste döndür
+          [],
     );
   }
 

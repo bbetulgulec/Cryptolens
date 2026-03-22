@@ -48,18 +48,33 @@ class CoinsModel extends Equatable {
 
   factory CoinsModel.fromMap(Map<String, dynamic> map) {
     return CoinsModel(
-      uuid: map['uuid'] as String,
-      symbol: map['symbol'] as String,
-      name: map['name'] as String,
-      color: map['color'] as String?,
-      iconUrl: map['iconUrl'] as String,
+      uuid: map['uuid']?.toString() ?? '',
+      symbol: map['symbol']?.toString() ?? 'N/A',
+      name: map['name']?.toString() ?? 'Unknown',
+      color: map['color']?.toString(),
+      iconUrl: map['iconUrl']?.toString() ?? '',
       marketCap: map['marketCap']?.toString(),
-      price: map['price'] as String,
-      change: map['change'] as String,
-      rank: map['rank'] as int,
-      sparkline: List<String>.from(map['sparkline'] ?? []),
-      allTimeHigh: AlltimehighModel.fromMap(map['allTimeHigh']),
-      volume24h: map['24hVolume'] as String,
+      price: map['price']?.toString() ?? '0.0',
+      contractAddresses: map['contractAddresses'] as List? ?? [],
+      // GÜVENLİ DEĞİŞİM (Null gelirse '0' yap)
+      change: map['change']?.toString() ?? '0',
+
+      // GÜVENLİ RANK (Null gelirse 0 yap)
+      rank: (map['rank'] is int)
+          ? map['rank']
+          : int.tryParse(map['rank']?.toString() ?? '0') ?? 0,
+
+      sparkline:
+          (map['sparkline'] as List?)
+              ?.map((e) => e?.toString() ?? '0')
+              .toList() ??
+          [],
+      // GÜVENLİ ALL TIME HIGH (Modelin içindeki fromMap'e null gitmesin)
+      allTimeHigh: map['allTimeHigh'] != null
+          ? AlltimehighModel.fromMap(map['allTimeHigh'])
+          : const AlltimehighModel(price: '0', timestamp: 0),
+
+      volume24h: map['24hVolume']?.toString() ?? '0',
     );
   }
   @override

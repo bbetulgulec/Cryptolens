@@ -29,3 +29,12 @@ class ToggleFavorite extends HomeEvent {
   @override
   List<Object?> get props => [uuid];
 }
+
+class Filtered extends HomeEvent {
+  final String orderBy;
+  final String orderDirection;
+  const Filtered({required this.orderBy, required this.orderDirection});
+
+  @override
+  List<Object?> get props => [orderBy, orderDirection];
+}

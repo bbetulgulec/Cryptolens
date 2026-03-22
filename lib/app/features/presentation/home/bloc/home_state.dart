@@ -11,6 +11,10 @@ class HomeState extends Equatable {
   final CoinsModel? coinDetail;
   final String? selectedTime;
   final List<String> favoriteUuids;
+  final bool successfullFiltered;
+  // YENİ EKLENENLER: UI'daki seçimleri hafızada tutmak için
+  final String orderBy;
+  final String orderDirection;
 
   const HomeState({
     required this.isLoading,
@@ -21,6 +25,9 @@ class HomeState extends Equatable {
     this.coinDetail,
     this.selectedTime,
     required this.favoriteUuids,
+    required this.successfullFiltered,
+    this.orderBy = 'marketCap', // Varsayılan değerler
+    this.orderDirection = 'desc',
   });
 
   factory HomeState.initial() {
@@ -33,6 +40,9 @@ class HomeState extends Equatable {
       coinDetail: null,
       selectedTime: "7d",
       favoriteUuids: [],
+      successfullFiltered: false,
+      orderBy: 'marketCap', // Başlangıçta marketCap seçili gelsin
+      orderDirection: 'desc',
     );
   }
 
@@ -45,16 +55,22 @@ class HomeState extends Equatable {
     CoinsModel? coinDetail,
     String? selectedTime,
     List<String>? favoriteUuids,
+    bool? successfullFiltered,
+    String? orderBy,
+    String? orderDirection,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
       coins: coins ?? this.coins,
       stats: stats ?? this.stats,
-      errorMessage: errorMessage,
+      errorMessage: errorMessage ?? this.errorMessage,
       isBottomSheetLoading: isBottomSheetLoading ?? this.isBottomSheetLoading,
       coinDetail: coinDetail ?? this.coinDetail,
       selectedTime: selectedTime ?? this.selectedTime,
       favoriteUuids: favoriteUuids ?? this.favoriteUuids,
+      successfullFiltered: successfullFiltered ?? this.successfullFiltered,
+      orderBy: orderBy ?? this.orderBy, // Güncelleneni al yoksa mevcut kalsın
+      orderDirection: orderDirection ?? this.orderDirection,
     );
   }
 
@@ -68,5 +84,8 @@ class HomeState extends Equatable {
     coinDetail,
     selectedTime,
     favoriteUuids,
+    successfullFiltered,
+    orderBy,
+    orderDirection,
   ];
 }

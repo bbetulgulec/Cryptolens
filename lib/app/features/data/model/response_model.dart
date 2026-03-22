@@ -27,14 +27,18 @@ class ResponseModel extends Equatable {
 
   factory ResponseModel.fromMap(Map<String, dynamic> map) {
     return ResponseModel(
-      status: map['status'] as String? ?? 'fail',
-      // Artık data null gelebilir, hata vermez:
+      status: map['status']?.toString() ?? 'fail',
       data: map['data'] != null
           ? ResponseDataModel.fromMap(map['data'] as Map<String, dynamic>)
           : null,
-      pagination: PaginationModel.fromMap(
-        map['pagination'] as Map<String, dynamic>,
-      ),
+      // EĞER pagination KEY'İ YOKSA ÇÖKMESİN:
+      pagination: map['pagination'] != null
+          ? PaginationModel.fromMap(map['pagination'] as Map<String, dynamic>)
+          : const PaginationModel(
+              limit: 50,
+              hasNextPage: false,
+              hasPreviousPage: false,
+            ),
     );
   }
 
