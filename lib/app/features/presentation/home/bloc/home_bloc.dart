@@ -1,4 +1,3 @@
-import 'package:crypto_lens/app/features/data/model/responese_data_model.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_state.dart';
 import 'package:crypto_lens/app/features/data/repository/coins_repository.dart';
@@ -15,6 +14,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc(this._coinsRepository) : super(HomeState.initial()) {
     on<FetchHomeData>((event, emit) async {
+      if (state.coins.isNotEmpty && !event.isRefresh) {
+        return;
+      }
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
       // 2. Repository üzerinden isteği at
@@ -54,9 +56,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
     on<FetchCoinDetail>((event, emit) async {
-      // 🚨 Aynı istekse tekrar atma (çok önemli)
-      if (state.selectedTime == event.time &&
-          state.coinDetail?.uuid == event.uuid) {
+      if (state.coinDetail?.uuid == event.uuid &&
+          state.selectedTime == event.time) {
         return;
       }
 
@@ -68,12 +69,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
 
-      final result = await _coinsRepository.fetchCoinDetails(time: event.time);
+      final result = await _coinsRepository.fetchCoinDetails(
+        time: event.time,
+        uuid: event.uuid,
+      );
 
       if (result is SuccessDataResult) {
-        final responseData = result.data?.data as ResponseDataModel?;
+        final responseData = result.data?.data;
 
         if (responseData != null && responseData.coins.isNotEmpty) {
+          // Gelen listeden ilgili coin'i bul
           final selectedCoin = responseData.coins.firstWhere(
             (c) => c.uuid == event.uuid,
             orElse: () => responseData.coins.first,
@@ -82,14 +87,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(
             state.copyWith(
               isBottomSheetLoading: false,
-              coinDetail: selectedCoin,
+              coinDetail: selectedCoin, // Artık state'te güncel detay var
             ),
           );
         }
       } else {
+        // Hata durumunda loading'i kapat, kullanıcı eski veriyi görmeye devam etsin
         emit(state.copyWith(isBottomSheetLoading: false));
       }
-    }, transformer: debounce(const Duration(milliseconds: 600)));
+    });
     on<ToggleFavorite>((event, emit) async {
       // 1. Mevcut favorileri kopyala (Referans hatası olmaması için toList() yapıyoruz)
       final List<String> currentFavorites = List.from(state.favoriteUuids);
@@ -106,17 +112,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await _coinsRepository.toggleFavorite(event.uuid);
     });
     on<Filtered>((event, emit) async {
+      emit(state.copyWith(isLoading: true));
       // 1. Önce State'teki seçimleri güncelle ve loading başlat
-      emit(
+      /* emit(
         state.copyWith(
           isLoading: true,
           orderBy: event.orderBy,
           orderDirection: event.orderDirection,
         ),
       );
+      */
 
       // 2. Repository'den yeni filtrelerle veriyi çek
       final result = await _coinsRepository.fetchLiveAssetsData(
+        refresh: true,
         orderBy: event.orderBy,
         orderDirection: event.orderDirection,
       );
@@ -128,6 +137,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             isLoading: false,
             coins: result.data?.data?.coins ?? [],
             successfullFiltered: !state.successfullFiltered,
+            orderBy: event.orderBy,
+            orderDirection: event.orderDirection,
           ),
         );
       } else {
@@ -138,7 +149,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         );
       }
-    });
+    }, transformer: debounce(const Duration(milliseconds: 600)));
     on<SearchCoins>((event, emit) {
       final query = event.query.toLowerCase();
 
@@ -147,7 +158,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             coin.symbol.toLowerCase().contains(query);
       }).toList();
 
-      // 🔥 en iyi eşleşeni üste al
+      // en iyi eşleşeni üste al
       filtered.sort((a, b) {
         final aStarts = a.name.toLowerCase().startsWith(query);
         final bStarts = b.name.toLowerCase().startsWith(query);
@@ -158,6 +169,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       });
 
       emit(state.copyWith(searchQuery: query, filteredCoins: filtered));
-    });
+    }, transformer: debounce(const Duration(milliseconds: 600)));
   }
 }

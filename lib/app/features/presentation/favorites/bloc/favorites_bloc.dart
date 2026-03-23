@@ -17,7 +17,10 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
           errorMessage: "",
         ),
       ) {
-    on<FetchHomeData>((event, emit) async {
+    on<FetchFavoritesData>((event, emit) async {
+      if (state.coins.isNotEmpty && !event.isRefresh) {
+        return;
+      }
       emit(state.copyWith(isLoading: true));
 
       final currentFavorites = _coinsRepository.getFavorites();

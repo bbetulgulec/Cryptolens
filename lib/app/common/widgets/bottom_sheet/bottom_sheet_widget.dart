@@ -28,7 +28,7 @@ class BottomSheetWidget extends StatelessWidget {
       isScrollControlled: true,
       // BottomSheet'in HomeBloc'a erişebilmesi için BlocProvider.value kullanıyoruz
       builder: (_) => BlocProvider.value(
-        value: context.read<HomeBloc>(),
+        value: context.read<HomeBloc>(), 
         child: BottomSheetWidget(coin: coin),
       ),
     );
@@ -63,7 +63,6 @@ class BottomSheetWidget extends StatelessWidget {
               ),
               const Divider(color: Colors.white10),
 
-              // Veri yüklenirken küçük bir indikator gösterelim
               if (state.isBottomSheetLoading)
                 const LinearProgressIndicator(
                   color: AppColor.neonBlue,
@@ -80,7 +79,6 @@ class BottomSheetWidget extends StatelessWidget {
 
               SegmentedTimeWidget(
                 uuid: currentCoin.uuid,
-                // Artık 'state' tanımlı olduğu için hata vermeyecek!
                 selectedPeriod: state.selectedTime ?? "7d",
               ),
 

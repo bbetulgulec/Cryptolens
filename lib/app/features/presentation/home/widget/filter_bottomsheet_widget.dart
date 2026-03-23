@@ -1,3 +1,8 @@
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/build_option_widget.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/filter_button_widget.dart';
+import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
+import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:crypto_lens/app/common/constants/app_color.dart';
@@ -14,7 +19,6 @@ class FilterBottomSheetWidget extends StatefulWidget {
     required this.initialDirection,
   });
 
-  // FilterBottomSheetWidget içinde
   static Future<void> show(
     BuildContext context,
     HomeBloc homeBloc,
@@ -56,83 +60,67 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "Sort Options",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Divider(color: Colors.white10, height: 30),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppTextWidget.semiBold("Sort Options", color: AppColor.cloudyBlue),
+        const Divider(color: AppColor.skyBlue, height: 30),
 
-          // Yön Seçimi
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildDirectionChip("Descending", "desc", Icons.trending_down),
-              _buildDirectionChip("Ascending", "asc", Icons.trending_up),
-            ],
-          ),
-          const SizedBox(height: 20),
+        // Yön Seçimi
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildDirectionChip("Descending", "desc", Icons.trending_down),
+            _buildDirectionChip("Ascending", "asc", Icons.trending_up),
+          ],
+        ),
+        const SizedBox(height: 20),
 
-          // Seçenekler
-          _buildOption("Market Cap", "marketCap", Icons.pie_chart),
-          _buildOption("Price", "price", Icons.attach_money),
-          _buildOption("24h Volume", "24hVolume", Icons.bar_chart),
-          _buildOption("Change (%)", "change", Icons.percent),
-          _buildOption("Listing Date", "listedAt", Icons.calendar_today),
+        BuildOptionWidget(
+          title: "Market Cap",
+          isSelected: localOrderBy == "marketCap",
+          icon: Icons.pie_chart,
+          onTap: () => setState(() => localOrderBy = "marketCap"),
+        ),
+        BuildOptionWidget(
+          title: "Price",
+          isSelected: localOrderBy == "price",
+          icon: Icons.attach_money,
+          onTap: () => setState(() => localOrderBy = "price"),
+        ),
+        BuildOptionWidget(
+          title: "24h Volume",
+          isSelected: localOrderBy == "24hVolume",
+          icon: Icons.pie_chart,
+          onTap: () => setState(() => localOrderBy = "24hVolume"),
+        ),
+        BuildOptionWidget(
+          title: "Change (%)",
+          isSelected: localOrderBy == "change",
+          icon: Icons.attach_money,
+          onTap: () => setState(() => localOrderBy = "change"),
+        ),
+        BuildOptionWidget(
+          title: "Listing Date",
+          isSelected: localOrderBy == "listedAt",
+          icon: Icons.attach_money,
+          onTap: () => setState(() => localOrderBy = "listedAt"),
+        ),
 
-          const SizedBox(height: 25),
-
-          // UYGULA BUTONU (İstediğin buton burası)
-          SizedBox(
-            width: double.infinity,
-            height: 55,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColor.neonBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              onPressed: () {
-                // Seçimleri Bloc'a gönderiyoruz
-                context.read<HomeBloc>().add(
-                  Filtered(
-                    orderBy: localOrderBy,
-                    orderDirection: localDirection,
-                  ),
-                );
-                Navigator.pop(context); // Sheet'i kapat
-              },
-              child: const Text(
-                "Apply Filters",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
+        FilterButtonWidget(
+          localOrderBy: localOrderBy,
+          localDirection: localDirection,
+          onPressed: () {
+            context.read<HomeBloc>().add(
+              Filtered(orderBy: localOrderBy, orderDirection: localDirection),
+            );
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    ).symmetricPadding(
+      horizontal: context.width * 0.05,
+      vertical: context.height * 0.03,
     );
   }
 
@@ -143,10 +131,13 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
         () => localDirection = value,
       ), // Sadece içerideki durumu değiştirir
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.width * 0.015,
+          vertical: context.height * 0.015,
+        ),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColor.neonBlue.withOpacity(0.2)
+              ? AppColor.neonBlue.withAlpha(30)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
@@ -160,7 +151,7 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
               color: isSelected ? AppColor.neonBlue : Colors.white60,
               size: 18,
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: context.width * 0.01),
             Text(
               label,
               style: TextStyle(
@@ -170,27 +161,6 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildOption(String title, String value, IconData icon) {
-    final bool isSelected = localOrderBy == value;
-    return ListTile(
-      onTap: () => setState(
-        () => localOrderBy = value,
-      ), // Sadece içerideki durumu değiştirir
-      leading: Icon(
-        icon,
-        color: isSelected ? AppColor.neonBlue : Colors.white60,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(color: isSelected ? Colors.white : Colors.white70),
-      ),
-      trailing: isSelected
-          ? const Icon(Icons.check_circle, color: AppColor.neonBlue)
-          : null,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
   }
 }

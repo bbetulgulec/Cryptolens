@@ -4,6 +4,7 @@ import 'package:crypto_lens/core/dio_manager/api_error_model.dart';
 import 'package:crypto_lens/core/dio_manager/api_response_model.dart';
 import 'package:crypto_lens/core/dio_manager/interceptors/auth_interceptor.dart';
 import 'package:crypto_lens/core/dio_manager/interceptors/error_logging_interceptor.dart';
+import 'package:crypto_lens/core/dio_manager/interceptors/rate_limit_interceptor.dart';
 import 'package:crypto_lens/core/dio_manager/interceptors/retry_interceptor.dart';
 import 'package:dio/dio.dart';
 
@@ -23,6 +24,7 @@ class DioApiManager {
       if (token != null) AuthInterceptor(), // Token management
       RetryInterceptor(dio: _dio), // Auth retry management
       ErrorLoggingInterceptor(), // Error logging
+      RateLimitInterceptor(),
     ]);
   }
 
@@ -133,11 +135,18 @@ class DioApiManager {
             message: "Resource not found.",
             statusCode: e.response?.statusCode,
           );
+
+        case 429: 
+          return ApiErrorModel(
+            message: "Rate limit reached. Please wait a moment.",
+            statusCode: e.response?.statusCode,
+          );
         case 500:
           return ApiErrorModel(
             message: "Internal server error. Please try again later.",
             statusCode: e.response?.statusCode,
           );
+
         default:
           return ApiErrorModel(
             message: "Error: ${e.response?.statusMessage}",

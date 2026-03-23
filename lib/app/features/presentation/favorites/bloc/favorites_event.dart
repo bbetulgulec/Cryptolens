@@ -6,9 +6,9 @@ abstract class FavoritesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchHomeData extends FavoritesEvent {
+class FetchFavoritesData extends FavoritesEvent {
   final bool isRefresh;
-  const FetchHomeData({this.isRefresh = false});
+  const FetchFavoritesData({this.isRefresh = false});
 }
 
 class FetchCoinDetail extends FavoritesEvent {

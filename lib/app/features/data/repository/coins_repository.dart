@@ -9,7 +9,10 @@ abstract class CoinsRepository {
     String? orderBy,
     String? orderDirection,
   });
-  Future<DataResult<ResponseModel>> fetchCoinDetails({required String time});
+  Future<DataResult<ResponseModel>> fetchCoinDetails({
+    required String time,
+    String? uuid,
+  });
   Future<DataResult<ResponseModel>> getFilteredCoins({
     required String orderBy,
     required String orderDirection,
@@ -21,6 +24,9 @@ abstract class CoinsRepository {
 class CoinsRepositoryImpl implements CoinsRepository {
   final CoinsRemoteDatasource coinsRemoteDatasource;
   final CoinLocalDatasource localDatasource;
+
+  ResponseModel? _cachedResponse;
+  final Map<String, ResponseModel> _detailsCache = {};
 
   CoinsRepositoryImpl({
     required this.coinsRemoteDatasource,
@@ -34,7 +40,10 @@ class CoinsRepositoryImpl implements CoinsRepository {
     String? orderBy,
     String? orderDirection,
   }) async {
-    // Buradaki parametreleri DataSource'a gönderiyoruz
+    if (!refresh && _cachedResponse != null && orderBy == null) {
+      return SuccessDataResult(data: _cachedResponse!);
+    }
+
     final response = await coinsRemoteDatasource.fetchLiveAssets(
       orderBy: orderBy,
       orderDirection: orderDirection,
@@ -43,6 +52,9 @@ class CoinsRepositoryImpl implements CoinsRepository {
     if (response.isSuccess && response.data != null) {
       return SuccessDataResult(data: response.data!);
     } else {
+      if (_cachedResponse != null) {
+        return SuccessDataResult(data: _cachedResponse!);
+      }
       return ErrorDataResult(
         message: response.error?.message ?? 'Failed to fetch coins data',
       );
@@ -52,10 +64,17 @@ class CoinsRepositoryImpl implements CoinsRepository {
   @override
   Future<DataResult<ResponseModel>> fetchCoinDetails({
     required String time,
+    String? uuid,
   }) async {
+    final String cacheKey = "${uuid}_$time";
+    if (_detailsCache.containsKey(cacheKey)) {
+      return SuccessDataResult(data: _detailsCache[cacheKey]!);
+    }
+
     final response = await coinsRemoteDatasource.fetchCoinDetails(time);
 
     if (response.isSuccess && response.data != null) {
+      _detailsCache[cacheKey] = response.data!;
       return SuccessDataResult(data: response.data!);
     } else {
       return ErrorDataResult(

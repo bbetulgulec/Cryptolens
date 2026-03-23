@@ -1,9 +1,10 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/coin_icon_widget.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/favorite_action_widget.dart';
+import 'package:crypto_lens/app/features/presentation/home/widget/pricesection__coininfosection.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AssetsCardWidget extends StatelessWidget {
   final String? url;
@@ -12,8 +13,8 @@ class AssetsCardWidget extends StatelessWidget {
   final String dolarText;
   final String ratio;
   final VoidCallback? onTap;
-  final bool isFavorite; // YENİ
-  final VoidCallback? onFavoriteTap; // YENİ
+  final bool isFavorite;
+  final VoidCallback? onFavoriteTap;
 
   const AssetsCardWidget({
     super.key,
@@ -29,8 +30,6 @@ class AssetsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color ratioColor = ratio.startsWith('-') ? Colors.red : Colors.green;
-
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -39,89 +38,15 @@ class AssetsCardWidget extends StatelessWidget {
         elevation: 4,
         child: Row(
           children: [
-            _buildCoinIcon(),
-            const SizedBox(width: 12),
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppTextWidget.medium(name, color: AppColor.white),
-                  AppTextWidget.regular(
-                    nameAbb,
-                    color: AppColor.white.withAlpha(60),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppTextWidget.medium(dolarText, color: AppColor.white),
-                  AppTextWidget.regular(ratio, color: ratioColor),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            GestureDetector(
-              onTap: onFavoriteTap, // Yıldızın kendi tıklama alanı
-              child: Icon(
-                isFavorite ? Icons.star : Icons.star_border,
-                color: isFavorite ? Colors.amber : AppColor.white,
-                size: 24,
-              ),
-            ),
+            CoinIconWidget(url: url),
+            SizedBox(width: context.width * 0.03),
+            CoinInfoSection(name: name, symbol: nameAbb),
+            PriceSection(price: dolarText, ratio: ratio),
+            SizedBox(width: context.width * 0.03),
+            FavoriteActionWidget(isFavorite: isFavorite, onTap: onFavoriteTap),
           ],
         ).allPadding(context.height * 0.015),
       ),
-    );
-  }
-
-  Widget _buildCoinIcon() {
-    // 1. Temel Kontrol
-    if (url == null || url!.isEmpty || !url!.startsWith('http')) {
-      return _buildPlaceholder();
-    }
-
-    return SizedBox(width: 40, height: 40, child: _buildImageByExtension(url!));
-  }
-
-  Widget _buildImageByExtension(String imageUrl) {
-    // URL'nin sonu .svg ile mi bitiyor? (Küçük harfe çevirerek kontrol et)
-    if (imageUrl.toLowerCase().endsWith('.svg')) {
-      return SvgPicture.network(
-        imageUrl,
-        fit: BoxFit.contain,
-        placeholderBuilder: (context) =>
-            const CircularProgressIndicator(strokeWidth: 2),
-        // SVG bozuksa veya XML hatası verirse buraya düşer
-        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
-      );
-    } else {
-      // .png, .jpg veya diğer formatlar için normal Image widget'ı
-      return Image.network(
-        imageUrl,
-        fit: BoxFit.contain,
-        // Resim yüklenirken
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return const CircularProgressIndicator(strokeWidth: 2);
-        },
-        // PNG bozuksa veya yüklenemezse buraya düşer
-        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
-      );
-    }
-  }
-
-  Widget _buildPlaceholder() {
-    return CircleAvatar(
-      radius: 20,
-      backgroundColor: Colors.white.withAlpha(10),
-      child: const Icon(Icons.currency_bitcoin, color: Colors.amber, size: 20),
     );
   }
 }
