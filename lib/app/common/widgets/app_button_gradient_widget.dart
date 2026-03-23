@@ -1,10 +1,10 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:flutter/material.dart';
 
-class AppButtonGradient extends StatelessWidget {
+class AppButtonGradientWidget extends StatelessWidget {
   final VoidCallback onPressed;
-  const AppButtonGradient({
+  const AppButtonGradientWidget({
     super.key,
     required this.buttonText,
     required this.onPressed,
@@ -29,7 +29,7 @@ class AppButtonGradient extends StatelessWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
           ),
-          child: AppText.medium(buttonText ?? "", color: AppColor.white),
+          child: AppTextWidget.medium(buttonText ?? "", color: AppColor.white),
         ),
       ),
     );

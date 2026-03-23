@@ -1,9 +1,9 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:flutter/material.dart';
 
-class TitleText extends StatelessWidget {
-  const TitleText({super.key});
+class TitleTextWidget extends StatelessWidget {
+  const TitleTextWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class TitleText extends StatelessWidget {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-      child: AppText.bold("CryptoLens", size: 28),
+      child: AppTextWidget.bold("CryptoLens", size: 28),
     );
   }
 }

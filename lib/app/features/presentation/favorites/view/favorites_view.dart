@@ -1,6 +1,6 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_widget.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_event.dart';
@@ -22,7 +22,7 @@ class FavoritesView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText.big("Favorites", color: AppColor.white),
+            AppTextWidget.big("Favorites", color: AppColor.white),
             Expanded(
               child: BlocBuilder<FavoritesBloc, FavoriteState>(
                 builder: (context, state) {
@@ -40,7 +40,6 @@ class FavoritesView extends StatelessWidget {
                         // favorites_view.dart içindeki onTap:
                         onTap: () {
                           // 1. HomeBloc'u uyar ki BottomSheet içindeki BlocBuilder tetiklensin
-                       
 
                           // 2. FavoritesBloc'u uyar ki kendi state'ini güncellesin (opsiyonel ama tutarlılık için iyi)
                           context.read<FavoritesBloc>().add(

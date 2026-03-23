@@ -1,5 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +47,11 @@ class AssetsCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppText.medium(name, color: AppColor.white),
-                  AppText.regular(nameAbb, color: AppColor.white.withAlpha(60)),
+                  AppTextWidget.medium(name, color: AppColor.white),
+                  AppTextWidget.regular(
+                    nameAbb,
+                    color: AppColor.white.withAlpha(60),
+                  ),
                 ],
               ),
             ),
@@ -58,8 +61,8 @@ class AssetsCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppText.medium(dolarText, color: AppColor.white),
-                  AppText.regular(ratio, color: ratioColor),
+                  AppTextWidget.medium(dolarText, color: AppColor.white),
+                  AppTextWidget.regular(ratio, color: ratioColor),
                 ],
               ),
             ),

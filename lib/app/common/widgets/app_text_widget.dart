@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppText extends StatelessWidget {
+class AppTextWidget extends StatelessWidget {
   final String text;
   final double fontSize;
   final FontWeight fontWeight;
@@ -9,7 +9,7 @@ class AppText extends StatelessWidget {
   final int? maxLines;
   final TextDecoration? decoration;
 
-  const AppText._(
+  const AppTextWidget._(
     this.text, {
     super.key,
     required this.fontSize,
@@ -20,7 +20,7 @@ class AppText extends StatelessWidget {
     this.decoration,
   });
 
-  factory AppText.bold(
+  factory AppTextWidget.bold(
     String text, {
     Key? key,
     double? size,
@@ -30,7 +30,7 @@ class AppText extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w400,
     TextDecoration? decoration,
   }) {
-    return AppText._(
+    return AppTextWidget._(
       text,
       key: key,
       fontSize: size ?? 24,
@@ -41,7 +41,7 @@ class AppText extends StatelessWidget {
       decoration: decoration,
     );
   }
-  factory AppText.big(
+  factory AppTextWidget.big(
     String text, {
     Key? key,
     double? size,
@@ -51,7 +51,7 @@ class AppText extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w400,
     TextDecoration? decoration,
   }) {
-    return AppText._(
+    return AppTextWidget._(
       text,
       key: key,
       fontSize: size ?? 34,
@@ -63,7 +63,7 @@ class AppText extends StatelessWidget {
     );
   }
 
-  factory AppText.semiBold(
+  factory AppTextWidget.semiBold(
     String text, {
     Key? key,
     double? size,
@@ -73,7 +73,7 @@ class AppText extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w400,
     TextDecoration? decoration,
   }) {
-    return AppText._(
+    return AppTextWidget._(
       text,
       key: key,
       fontSize: size ?? 18,
@@ -85,7 +85,7 @@ class AppText extends StatelessWidget {
     );
   }
 
-  factory AppText.medium(
+  factory AppTextWidget.medium(
     String text, {
     Key? key,
     double? size,
@@ -95,7 +95,7 @@ class AppText extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w400,
     TextDecoration? decoration,
   }) {
-    return AppText._(
+    return AppTextWidget._(
       text,
       key: key,
       fontSize: size ?? 16,
@@ -107,7 +107,7 @@ class AppText extends StatelessWidget {
     );
   }
 
-  factory AppText.regular(
+  factory AppTextWidget.regular(
     String text, {
     Key? key,
     double? size,
@@ -117,7 +117,7 @@ class AppText extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w400,
     TextDecoration? decoration,
   }) {
-    return AppText._(
+    return AppTextWidget._(
       text,
       key: key,
       fontSize: size ?? 14,

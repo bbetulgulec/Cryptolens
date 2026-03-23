@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MultiBlocProvider ekleyerek Bloc'ları tüm ağaca yayıyoruz
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeBloc>(
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<FavoritesBloc>(
           create: (context) => getIt<FavoritesBloc>(),
         ),
-        // Gerekiyorsa diğer Bloc'ları da buraya ekleyebilirsiniz
       ],
       child: MaterialApp(
         navigatorKey: Navigation.navigationKey,

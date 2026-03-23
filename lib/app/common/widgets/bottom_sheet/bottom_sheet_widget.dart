@@ -1,9 +1,9 @@
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_card_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_title_row_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/crypto_chart_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/segmented_time_widget.dart';
-import 'package:crypto_lens/app/common/widgets/bottom_sheet/upper_limit_text.dart';
+import 'package:crypto_lens/app/common/widgets/bottom_sheet/upper_limit_text_widget.dart';
 import 'package:crypto_lens/app/features/data/model/coins_model.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart'; // Bloc importu
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_state.dart'; // State importu
@@ -70,11 +70,11 @@ class BottomSheetWidget extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                 ),
 
-              AppText.big(
+              AppTextWidget.big(
                 "\$${double.tryParse(currentCoin.price)?.toStringAsFixed(2)}",
                 color: AppColor.white,
               ),
-              UpperLimitText(price: currentCoin.change),
+              UpperLimitTextWidget(price: currentCoin.change),
 
               CryptoChartWidget(spots: chartData),
 

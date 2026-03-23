@@ -1,5 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/app/features/data/model/coins_model.dart';
 import 'package:flutter/material.dart';
 
@@ -60,9 +60,9 @@ class BottomSheetCardWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppText.regular(title, color: AppColor.skyBlue),
+          AppTextWidget.regular(title, color: AppColor.skyBlue),
           const SizedBox(height: 4),
-          AppText.bold(value, color: AppColor.white),
+          AppTextWidget.bold(value, color: AppColor.white),
         ],
       ),
     );

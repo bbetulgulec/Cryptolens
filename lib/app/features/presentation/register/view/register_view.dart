@@ -1,8 +1,7 @@
-
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
-import 'package:crypto_lens/app/common/widgets/app_card.dart';
-import 'package:crypto_lens/app/features/presentation/login/widget/title_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
+import 'package:crypto_lens/app/common/widgets/title_text_widget.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_event.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_state.dart';
@@ -34,9 +33,9 @@ class RegisterView extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
 
-                TitleText(),
+                TitleTextWidget(),
 
-                AppCard(
+                AppCardWidget(
                   title: "Create Account",
                   titleDesc: "Join the future of digital assets.",
                   emailText: "Email Address : ",
@@ -45,16 +44,18 @@ class RegisterView extends StatelessWidget {
                   buttonText: "Register",
                   richTextFirst: 'Already have an account? ',
                   richTextSecond: '  Login',
-                  onEmailChanged: (val) =>
-                      context.read<RegisterBloc>().add(RegisterFieldChanged(email: val)),
-                  onPasswordChanged: (val) =>
-                      context.read<RegisterBloc>().add(RegisterFieldChanged(password: val)),
+                  onEmailChanged: (val) => context.read<RegisterBloc>().add(
+                    RegisterFieldChanged(email: val),
+                  ),
+                  onPasswordChanged: (val) => context.read<RegisterBloc>().add(
+                    RegisterFieldChanged(password: val),
+                  ),
                   onPasswordAgainChanged: (val) => context
                       .read<RegisterBloc>()
                       .add(RegisterFieldChanged(passwordAgain: val)),
                   onPressed: () {
                     context.read<RegisterBloc>().add(const RegisterSubmitted());
-                    
+
                     Navigation.ofPop();
                   },
                   onTap: () {
@@ -63,7 +64,7 @@ class RegisterView extends StatelessWidget {
                   },
                 ),
               ],
-            ).onlyPadding(top: context.height * 0.04);
+            ).onlyPadding(top: context.height * 0.06);
           },
         ),
       ),

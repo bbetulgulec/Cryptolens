@@ -1,12 +1,12 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_button_gradient.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
-import 'package:crypto_lens/app/common/widgets/app_textfield.dart';
+import 'package:crypto_lens/app/common/widgets/app_button_gradient_widget.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
+import 'package:crypto_lens/app/common/widgets/app_textfield_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
 
-class AppCard extends StatelessWidget {
+class AppCardWidget extends StatelessWidget {
   final String title;
   final String titleDesc;
   final String emailText;
@@ -21,7 +21,7 @@ class AppCard extends StatelessWidget {
   final Function(String)? onPasswordChanged;
   final Function(String)? onPasswordAgainChanged;
 
-  const AppCard({
+  const AppCardWidget({
     super.key,
     required this.title,
     required this.titleDesc,
@@ -49,23 +49,29 @@ class AppCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
 
             children: [
-              AppText.bold(title, color: AppColor.white),
+              AppTextWidget.bold(title, color: AppColor.white),
 
-              AppText.medium(titleDesc, color: AppColor.skyBlue),
+              AppTextWidget.medium(titleDesc, color: AppColor.skyBlue),
               SizedBox(height: context.height * 0.08),
-              AppTextField(text: emailText, onChanged: onEmailChanged),
+              AppTextFieldWidget(text: emailText, onChanged: onEmailChanged),
               SizedBox(height: context.height * 0.05),
-              AppTextField(text: passwordText, onChanged: onPasswordChanged),
+              AppTextFieldWidget(
+                text: passwordText,
+                onChanged: onPasswordChanged,
+              ),
               SizedBox(height: context.height * 0.05),
               if (againPasswordText != null) ...[
-                AppTextField(
+                AppTextFieldWidget(
                   text: againPasswordText!,
                   onChanged: onPasswordAgainChanged,
                 ),
               ],
               SizedBox(height: context.height * 0.05),
 
-              AppButtonGradient(buttonText: buttonText, onPressed: onPressed),
+              AppButtonGradientWidget(
+                buttonText: buttonText,
+                onPressed: onPressed,
+              ),
 
               SizedBox(height: context.height * 0.03),
               GestureDetector(

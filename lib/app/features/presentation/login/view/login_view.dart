@@ -1,10 +1,10 @@
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
-import 'package:crypto_lens/app/common/widgets/app_card.dart';
+import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_event.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_state.dart';
-import 'package:crypto_lens/app/features/presentation/login/widget/title_text.dart';
+import 'package:crypto_lens/app/common/widgets/title_text_widget.dart';
 import 'package:crypto_lens/app/features/presentation/main/view/main_view.dart';
 import 'package:crypto_lens/app/features/presentation/register/view/register_view.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart'; // context.width için gerekli
@@ -49,7 +49,7 @@ class LoginView extends StatelessWidget {
                     height: context.width * 0.2,
                     fit: BoxFit.contain,
                   ),
-                  const TitleText(),
+                  const TitleTextWidget(),
 
                   if (state.isLoading)
                     const Padding(
@@ -57,7 +57,7 @@ class LoginView extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     ),
 
-                  AppCard(
+                  AppCardWidget(
                     title: "Welcome",
                     titleDesc: "Access your secure digital vault",
                     emailText: "Email Address : ",

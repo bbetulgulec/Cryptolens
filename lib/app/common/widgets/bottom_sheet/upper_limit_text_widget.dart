@@ -1,10 +1,10 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:flutter/material.dart';
 
-class UpperLimitText extends StatelessWidget {
+class UpperLimitTextWidget extends StatelessWidget {
   final String price;
-  const UpperLimitText({super.key, required this.price});
+  const UpperLimitTextWidget({super.key, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class UpperLimitText extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.trending_up, color: AppColor.neonBlue),
-          AppText.regular(price , color: AppColor.neonBlue),
+          AppTextWidget.regular(price, color: AppColor.neonBlue),
         ],
       ),
     );

@@ -2,7 +2,7 @@ import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text.dart';
+import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 
 class LogoutDialogWidget extends StatelessWidget {
   const LogoutDialogWidget({super.key});
@@ -26,10 +26,10 @@ class LogoutDialogWidget extends StatelessWidget {
             children: [
               const Icon(Icons.logout_rounded, color: AppColor.red, size: 40),
               SizedBox(height: context.height * 0.04),
-              AppText.bold("Logout", color: AppColor.white),
+              AppTextWidget.bold("Logout", color: AppColor.white),
               SizedBox(height: context.height * 0.01),
 
-              AppText.medium(
+              AppTextWidget.medium(
                 "Are you sure you want to log out?",
                 color: AppColor.cloudyBlue,
                 textAlign: TextAlign.center,
@@ -41,7 +41,7 @@ class LogoutDialogWidget extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: AppText.semiBold(
+                    child: AppTextWidget.semiBold(
                       "Cancel",
                       color: AppColor.cloudyBlue,
                     ),
@@ -58,7 +58,10 @@ class LogoutDialogWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: AppText.semiBold("Logout", color: AppColor.red),
+                    child: AppTextWidget.semiBold(
+                      "Logout",
+                      color: AppColor.red,
+                    ),
                   ),
                 ],
               ),

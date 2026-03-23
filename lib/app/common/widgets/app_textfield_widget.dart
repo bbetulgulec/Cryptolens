@@ -1,9 +1,9 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:flutter/material.dart';
 
-class AppTextField extends StatelessWidget {
+class AppTextFieldWidget extends StatelessWidget {
 
-  const AppTextField({super.key, required this.text, this.onChanged});
+  const AppTextFieldWidget({super.key, required this.text, this.onChanged});
 final Function(String)? onChanged; 
   final String text;
 
