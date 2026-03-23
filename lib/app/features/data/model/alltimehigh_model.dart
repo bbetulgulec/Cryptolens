@@ -4,11 +4,8 @@ class AlltimehighModel extends Equatable {
   final String? price;
   final int? timestamp;
 
-  // Constructor'ı şu şekilde sadeleştir:
   const AlltimehighModel({this.price, this.timestamp});
-  // all_time_high_model.dart
   factory AlltimehighModel.fromMap(Map<String, dynamic>? map) {
-    // Eğer map komple null gelirse boş bir model döndür
     if (map == null) return const AlltimehighModel(price: '0', timestamp: 0);
 
     return AlltimehighModel(

@@ -7,13 +7,15 @@ class FavoriteState extends Equatable {
   final CoinsModel? coinDetail;
   final List<String> favoriteUuids;
   final String errorMessage;
-
+  final String selectedTime;
+  
   const FavoriteState({
     required this.isLoading,
     required this.coins,
     this.coinDetail,
     required this.favoriteUuids,
     required this.errorMessage,
+    required this.selectedTime,
   });
 
   FavoriteState copyWith({
@@ -22,6 +24,7 @@ class FavoriteState extends Equatable {
     String? errorMessage,
     CoinsModel? coinDetail,
     List<String>? favoriteUuids,
+    String? selectedTime,
   }) {
     return FavoriteState(
       isLoading: isLoading ?? this.isLoading,
@@ -29,9 +32,20 @@ class FavoriteState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       coinDetail: coinDetail ?? this.coinDetail,
       favoriteUuids: favoriteUuids ?? this.favoriteUuids,
+      selectedTime: selectedTime ?? this.selectedTime,
     );
   }
-
+  
+// FavoriteState sınıfının içine ekle:
+factory FavoriteState.initial() {
+  return const FavoriteState(
+    isLoading: false,
+    coins: [],
+    favoriteUuids: [],
+    errorMessage: "",
+    selectedTime: "7d", 
+  );
+}
   @override
   List<Object?> get props => [
     isLoading,
@@ -39,5 +53,6 @@ class FavoriteState extends Equatable {
     errorMessage,
     coinDetail,
     favoriteUuids,
+    selectedTime,
   ];
 }

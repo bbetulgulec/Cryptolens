@@ -1,6 +1,7 @@
-import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
+import 'package:crypto_lens/app/common/widgets/bottom_sheet/build_info_card_widget.dart';
 import 'package:crypto_lens/app/features/data/model/coins_model.dart';
+import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
+import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetCardWidget extends StatelessWidget {
@@ -19,18 +20,25 @@ class BottomSheetCardWidget extends StatelessWidget {
       mainAxisSpacing: 12,
       childAspectRatio: 1.8,
       children: [
-        _buildInfoCard("RANK", "#${coin.rank}"),
+        BuildInfoCardWidget(title: "RANK", value: "#${coin.rank}"),
 
-        _buildInfoCard("MARKET CAP", _formatCurrency(coin.marketCap ?? '0')),
+        BuildInfoCardWidget(
+          title: "MARKET CAP",
+          value: _formatCurrency(coin.marketCap ?? '0'),
+        ),
 
-        _buildInfoCard("24H VOL", _formatCurrency(coin.volume24h)),
+        BuildInfoCardWidget(
+          title: "24H VOL",
+          value: _formatCurrency(coin.volume24h),
+        ),
 
-        _buildInfoCard(
-          "ALL TIME HIGH",
-          "\$${double.tryParse(coin.allTimeHigh.price ?? '0')?.toStringAsFixed(2) ?? '0.00'}",
+        BuildInfoCardWidget(
+          title: "ALL TIME HIGH",
+          value:
+              "\$${double.tryParse(coin.allTimeHigh.price ?? '0')?.toStringAsFixed(2) ?? '0.00'}",
         ),
       ],
-    );
+    ).symmetricPadding(horizontal: context.width * 0.04);
   }
 
   // Verileri formatlamak için  metod
@@ -41,7 +49,7 @@ class BottomSheetCardWidget extends StatelessWidget {
     final cleanValue = value.replaceAll(',', '');
     double val = double.tryParse(cleanValue) ?? 0;
 
-    if (val == 0) return "\$0.00"; // Eğer gerçekten 0 ise
+    if (val == 0) return "\$0.00";
 
     if (val >= 1e12) return "\$${(val / 1e12).toStringAsFixed(2)}T";
     if (val >= 1e9) return "\$${(val / 1e9).toStringAsFixed(2)}B";
@@ -49,22 +57,5 @@ class BottomSheetCardWidget extends StatelessWidget {
 
     // Eğer rakam 1000'den büyükse binlik ayracı ekleyelim (Opsiyonel)
     return "\$${val.toStringAsFixed(0)}";
-  }
-
-  Widget _buildInfoCard(String title, String value) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColor.cloudyBlue.withAlpha(60)),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppTextWidget.regular(title, color: AppColor.skyBlue),
-          const SizedBox(height: 4),
-          AppTextWidget.bold(value, color: AppColor.white),
-        ],
-      ),
-    );
   }
 }

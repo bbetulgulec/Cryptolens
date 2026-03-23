@@ -31,7 +31,6 @@ class ResponseModel extends Equatable {
       data: map['data'] != null
           ? ResponseDataModel.fromMap(map['data'] as Map<String, dynamic>)
           : null,
-      // EĞER pagination KEY'İ YOKSA ÇÖKMESİN:
       pagination: map['pagination'] != null
           ? PaginationModel.fromMap(map['pagination'] as Map<String, dynamic>)
           : const PaginationModel(

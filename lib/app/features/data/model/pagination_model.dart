@@ -14,10 +14,8 @@ class PaginationModel extends Equatable {
     this.nextCursor,
     this.previousCursor,
   });
-  // PaginationModel.fromMap içini şu şekilde değiştir:
   factory PaginationModel.fromMap(Map<String, dynamic> map) {
     return PaginationModel(
-      // map['limit'] null gelirse uygulama çökmesin diye:
       limit: int.tryParse(map['limit']?.toString() ?? '50') ?? 50,
       hasNextPage: map['hasNextPage'] == true,
       hasPreviousPage: map['hasPreviousPage'] == true,

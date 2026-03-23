@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_widget.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
-  // 1. ADIM: Metodu buraya, build'in dışına tanımlıyoruz
   String formatVolume(String? volume) {
     if (volume == null) return "24h Vol: \$0";
     double val = double.tryParse(volume) ?? 0;
@@ -29,18 +29,22 @@ class HomeView extends StatelessWidget {
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state.errorMessage != null) {
-            // Bir hata oluşursa kullanıcıya göster
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.errorMessage!),
-                backgroundColor: Colors.red,
+                backgroundColor: AppColor.red,
               ),
             );
           }
         },
         builder: (context, state) {
           if (state.isLoading && state.coins.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(
+                color: AppColor.neonBlue,
+                strokeWidth: 2,
+              ),
+            );
           }
           final coinsToShow = state.searchQuery.isEmpty
               ? state.coins
@@ -68,13 +72,34 @@ class HomeView extends StatelessWidget {
                       ratio: "${coin.change}%",
                       isFavorite: state.favoriteUuids.contains(coin.uuid),
                       onTap: () {
+                        // 1. Detayı çekmesi için event'i fırlat
                         context.read<HomeBloc>().add(
                           FetchCoinDetail(uuid: coin.uuid, time: "7d"),
                         );
-                        BottomSheetWidget.show(context, coin);
+
+                        // 2. Saf Widget'ı sayfanın kendi Bloc'uyla sarmalayarak aç
+                        BottomSheetWidget.show(
+                          context,
+                          child: BlocBuilder<HomeBloc, HomeState>(
+                            builder: (context, state) {
+                              return BottomSheetWidget(
+                                coin: state.coinDetail ?? coin,
+                                isLoading: state.isBottomSheetLoading,
+                                selectedTime: state.selectedTime ?? "7d",
+                                onTimeChanged: (newTime) {
+                                  context.read<HomeBloc>().add(
+                                    FetchCoinDetail(
+                                      uuid: coin.uuid,
+                                      time: newTime,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        );
                       },
                       onFavoriteTap: () {
-                        // BLOC'A FAVORİ EVENT'İNİ GÖNDER
                         context.read<HomeBloc>().add(
                           ToggleFavorite(uuid: coin.uuid),
                         );
@@ -84,7 +109,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
             ],
-          ).symmetricPadding(horizontal: context.width * 0.015);
+          ).symmetricPadding(horizontal: context.width * 0.0);
         },
       ),
     );

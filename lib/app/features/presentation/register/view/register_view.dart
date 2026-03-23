@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
@@ -25,47 +28,72 @@ class RegisterView extends StatelessWidget {
             if (state.isSuccessfull) Navigation.ofPop();
           },
           builder: (context, state) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            return Stack(
               children: [
-                Image.asset(
-                  AppImage.appIcon.path,
-                  width: context.width * 0.2,
-                  height: context.width * 0.2,
-                  fit: BoxFit.contain,
-                ),
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImage.appIcon.path,
+                        width: context.width * 0.2,
+                        height: context.width * 0.2,
+                        fit: BoxFit.contain,
+                      ),
 
-                TitleTextWidget(),
+                      TitleTextWidget(),
 
-                AppCardWidget(
-                  title: "Create Account",
-                  titleDesc: "Join the future of digital assets.",
-                  emailText: "Email Address : ",
-                  passwordText: "Password : ",
-                  againPasswordText: "Password (Repeat) : ",
-                  buttonText: "Register",
-                  richTextFirst: 'Already have an account? ',
-                  richTextSecond: '  Login',
-                  onEmailChanged: (val) => context.read<RegisterBloc>().add(
-                    RegisterFieldChanged(email: val),
-                  ),
-                  onPasswordChanged: (val) => context.read<RegisterBloc>().add(
-                    RegisterFieldChanged(password: val),
-                  ),
-                  onPasswordAgainChanged: (val) => context
-                      .read<RegisterBloc>()
-                      .add(RegisterFieldChanged(passwordAgain: val)),
-                  onPressed: () {
-                    context.read<RegisterBloc>().add(const RegisterSubmitted());
-                  },
-                  onTap: () {
-                    AppLogger.instance.log("redirected to the login page");
-                    Navigation.ofPop();
-                  },
+                      AppCardWidget(
+                        title: "Create Account",
+                        titleDesc: "Join the future of digital assets.",
+                        emailText: "Email Address : ",
+                        passwordText: "Password : ",
+                        againPasswordText: "Password (Repeat) : ",
+                        buttonText: "Register",
+                        richTextFirst: 'Already have an account? ',
+                        richTextSecond: '  Login',
+                        onEmailChanged: (val) => context
+                            .read<RegisterBloc>()
+                            .add(RegisterFieldChanged(email: val)),
+                        onPasswordChanged: (val) => context
+                            .read<RegisterBloc>()
+                            .add(RegisterFieldChanged(password: val)),
+                        onPasswordAgainChanged: (val) => context
+                            .read<RegisterBloc>()
+                            .add(RegisterFieldChanged(passwordAgain: val)),
+                        onPressed: () {
+                          context.read<RegisterBloc>().add(
+                            const RegisterSubmitted(),
+                          );
+                        },
+                        onTap: () {
+                          AppLogger.instance.log(
+                            "redirected to the login page",
+                          );
+                          Navigation.ofPop();
+                        },
+                      ),
+                    ],
+                  ).onlyPadding(top: context.height * 0.06),
                 ),
+                if (state.isLoading)
+                  Positioned.fill(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                      child: Container(
+                        color: Colors.black.withAlpha(60),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.neonBlue,
+                            strokeWidth: 5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
-            ).onlyPadding(top: context.height * 0.06);
+            );
           },
         ),
       ),

@@ -27,7 +27,7 @@ class BuildBlurredIconWidget extends StatelessWidget {
               width: context.width * 0.30,
               height: context.width * 0.30,
               color:
-                  Colors.transparent, // İçini boş bırakıyoruz, sadece buğuluyor
+                  Colors.transparent, 
             ),
           ),
         ),

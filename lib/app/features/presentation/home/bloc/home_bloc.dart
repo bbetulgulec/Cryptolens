@@ -56,6 +56,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
     on<FetchCoinDetail>((event, emit) async {
+      if (state.selectedTime == event.time &&
+          state.coinDetail?.uuid == event.uuid) {
+        return;
+      }
       if (state.coinDetail?.uuid == event.uuid &&
           state.selectedTime == event.time) {
         return;
@@ -95,7 +99,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         // Hata durumunda loading'i kapat, kullanıcı eski veriyi görmeye devam etsin
         emit(state.copyWith(isBottomSheetLoading: false));
       }
-    });
+    }, transformer: debounce(const Duration(milliseconds: 400)));
     on<ToggleFavorite>((event, emit) async {
       // 1. Mevcut favorileri kopyala (Referans hatası olmaması için toList() yapıyoruz)
       final List<String> currentFavorites = List.from(state.favoriteUuids);

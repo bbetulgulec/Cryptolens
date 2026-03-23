@@ -13,7 +13,7 @@ class TextRowWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
 
       children: [
-        AppTextWidget.big("Live Assets", color: AppColor.white),
+        AppTextWidget.bold("Live Assets", color: AppColor.white),
         AppTextWidget.medium(total24hVolume, color: AppColor.neonBlue),
       ],
     );

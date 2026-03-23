@@ -1,24 +1,21 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
-import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
-import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 class SegmentedTimeWidget extends StatelessWidget {
   final String selectedPeriod;
-  final String uuid; // Hangi coin olduğunu bilmemiz şart
+  final String uuid;
+  final Function(String)? onChanged; // 🔥 EKLENDİ
 
   const SegmentedTimeWidget({
     super.key,
-    required this.selectedPeriod, // State'den gelecek (örn: "24h")
+    required this.selectedPeriod,
     required this.uuid,
+    this.onChanged, // 🔥 EKLENDİ
   });
 
   @override
   Widget build(BuildContext context) {
-    // API'nin anladığı gerçek değerleri bir Map'te tutalım
     final Map<String, String> periods = {
       "12H": "12h",
       "24H": "24h",
@@ -36,7 +33,6 @@ class SegmentedTimeWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: periods.entries.map((entry) {
-          // entry.key = "24H" (Görünen), entry.value = "24h" (API'ye giden)
           return _buildButton(context, entry.key, entry.value);
         }).toList(),
       ),
@@ -44,15 +40,11 @@ class SegmentedTimeWidget extends StatelessWidget {
   }
 
   Widget _buildButton(BuildContext context, String title, String apiValue) {
-    // Eğer state'deki selectedPeriod ile bu butonun apiValue'su aynıysa "seçili" göster
     final bool isSelected = selectedPeriod == apiValue;
 
     return GestureDetector(
       onTap: () {
-        // TIKLAMA BURADA: Bloc'a yeni veriyi getir diyoruz
-        context.read<HomeBloc>().add(
-          FetchCoinDetail(uuid: uuid, time: apiValue),
-        );
+        onChanged?.call(apiValue); // 🔥 ARTIK BURASI
       },
       child: Container(
         decoration: BoxDecoration(

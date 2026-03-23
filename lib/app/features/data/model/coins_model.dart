@@ -56,10 +56,8 @@ class CoinsModel extends Equatable {
       marketCap: map['marketCap']?.toString(),
       price: map['price']?.toString() ?? '0.0',
       contractAddresses: map['contractAddresses'] as List? ?? [],
-      // GÜVENLİ DEĞİŞİM (Null gelirse '0' yap)
       change: map['change']?.toString() ?? '0',
 
-      // GÜVENLİ RANK (Null gelirse 0 yap)
       rank: (map['rank'] is int)
           ? map['rank']
           : int.tryParse(map['rank']?.toString() ?? '0') ?? 0,
@@ -69,7 +67,6 @@ class CoinsModel extends Equatable {
               ?.map((e) => e?.toString() ?? '0')
               .toList() ??
           [],
-      // GÜVENLİ ALL TIME HIGH (Modelin içindeki fromMap'e null gitmesin)
       allTimeHigh: map['allTimeHigh'] != null
           ? AlltimehighModel.fromMap(map['allTimeHigh'])
           : const AlltimehighModel(price: '0', timestamp: 0),

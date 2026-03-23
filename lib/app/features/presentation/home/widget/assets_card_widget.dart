@@ -45,7 +45,7 @@ class AssetsCardWidget extends StatelessWidget {
             SizedBox(width: context.width * 0.03),
             FavoriteActionWidget(isFavorite: isFavorite, onTap: onFavoriteTap),
           ],
-        ).allPadding(context.height * 0.015),
+        ).allPadding(context.height * 0.01),
       ),
     );
   }

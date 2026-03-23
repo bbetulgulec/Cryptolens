@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
@@ -39,56 +42,70 @@ class LoginView extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: context.height * 0.1),
-                  Image.asset(
-                    AppImage.appIcon.path,
-                    width: context.width * 0.2,
-                    height: context.width * 0.2,
-                    fit: BoxFit.contain,
-                  ),
-                  const TitleTextWidget(),
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: context.height * 0.1),
+                      Image.asset(
+                        AppImage.appIcon.path,
+                        width: context.width * 0.2,
+                        height: context.width * 0.2,
+                        fit: BoxFit.contain,
+                      ),
+                      const TitleTextWidget(),
 
-                  if (state.isLoading)
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
+                      AppCardWidget(
+                        title: "Welcome",
+                        titleDesc: "Access your secure digital vault",
+                        emailText: "Email Address : ",
+                        passwordText: "Password : ",
+                        buttonText: "Login",
+                        richTextFirst: 'New to The CryptoLens?',
+                        richTextSecond: '  Create Account',
+
+                        onEmailChanged: (val) {
+                          context.read<LoginBloc>().add(
+                            LoginFieldChanged(email: val),
+                          );
+                        },
+                        onPasswordChanged: (val) {
+                          context.read<LoginBloc>().add(
+                            LoginFieldChanged(password: val),
+                          );
+                        },
+                        onPressed: () {
+                          context.read<LoginBloc>().add(const Logined());
+                        },
+                        onTap: () {
+                          AppLogger.instance.log(
+                            "redirected to the registration page",
+                          );
+                          Navigation.push(page: const RegisterView());
+                        },
+                      ),
+                    ],
+                  ).onlyPadding(top: context.height * 0.04),
+                ),
+
+                if (state.isLoading)
+                  Positioned.fill(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                      child: Container(
+                        color: Colors.black.withAlpha(60),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.neonBlue,
+                            strokeWidth: 5,
+                          ),
+                        ),
+                      ),
                     ),
-
-                  AppCardWidget(
-                    title: "Welcome",
-                    titleDesc: "Access your secure digital vault",
-                    emailText: "Email Address : ",
-                    passwordText: "Password : ",
-                    buttonText: "Login",
-                    richTextFirst: 'New to The CryptoLens?',
-                    richTextSecond: '  Create Account',
-
-                    onEmailChanged: (val) {
-                      context.read<LoginBloc>().add(
-                        LoginFieldChanged(email: val),
-                      );
-                    },
-                    onPasswordChanged: (val) {
-                      context.read<LoginBloc>().add(
-                        LoginFieldChanged(password: val),
-                      );
-                    },
-                    onPressed: () {
-                      context.read<LoginBloc>().add(const Logined());
-                    },
-                    onTap: () {
-                      AppLogger.instance.log(
-                        "redirected to the registration page",
-                      );
-                      Navigation.push(page: const RegisterView());
-                    },
                   ),
-                ],
-              ).onlyPadding(top: context.height * 0.04),
+              ],
             );
           },
         ),

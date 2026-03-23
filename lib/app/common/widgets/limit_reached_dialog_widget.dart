@@ -21,7 +21,7 @@ class _LimitReachedDialogWidgetState extends State<LimitReachedDialogWidget> {
   @override
   void initState() {
     super.initState();
-    _currentSeconds = widget.seconds; // Başlangıç değerini dışarıdan al
+    _currentSeconds = widget.seconds;
     _startTimer();
   }
 
@@ -32,14 +32,14 @@ class _LimitReachedDialogWidgetState extends State<LimitReachedDialogWidget> {
           _currentSeconds--; // Her saniye bir azalt ve ekranı yenile
         });
       } else {
-        _timer?.cancel(); // Süre bitince durdur
+        _timer?.cancel();
       }
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Diyalog kapanınca timer'ı bellekten sil (Önemli!)
+    _timer?.cancel(); // Diyalog kapanınca timer'ı bellekten sil
     super.dispose();
   }
 
@@ -57,15 +57,15 @@ class _LimitReachedDialogWidgetState extends State<LimitReachedDialogWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const BuildBlurredIconWidget(),
-            const SizedBox(height: 24),
+            SizedBox(height: context.height * 0.04),
             AppTextWidget.big("Limit Reached", color: AppColor.white),
-            const SizedBox(height: 12),
+            SizedBox(height: context.height * 0.04),
             AppTextWidget.regular(
               "The request limit has been reached. Please wait $_currentSeconds seconds.",
               color: AppColor.cloudyBlue,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: context.height * 0.04),
             LinearProgressIndicator(
               value: _currentSeconds / widget.seconds,
               backgroundColor: Colors.white10,
