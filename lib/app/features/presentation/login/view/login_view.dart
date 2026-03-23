@@ -27,11 +27,11 @@ class LoginView extends StatelessWidget {
           listenWhen: (previous, current) =>
               (previous.errorMessage != current.errorMessage &&
                   current.errorMessage != null) ||
-              previous.isSuccessfull != current.isSuccessfull, 
+              previous.isSuccessfull != current.isSuccessfull,
           listener: (context, state) {
             if (state.isSuccessfull) {
               AppLogger.instance.log("Login successful");
-              Navigation.pushReplace(page: const MainView());
+              Navigation.pushAndRemoveAll(page: const MainView());
               AppSnackBar.show('Login successful');
             }
             if (state.errorMessage != null) {

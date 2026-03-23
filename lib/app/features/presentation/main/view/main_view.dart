@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/view/favorites_view.dart';
 import 'package:crypto_lens/app/features/presentation/home/view/home_view.dart';
@@ -47,7 +48,7 @@ class MainView extends StatelessWidget {
                       context.read<MainBloc>().add(const Logout());
                     },
                   ),
-                  icon: Icon(Icons.logout_outlined),
+                  icon: Icon(Icons.logout_outlined, color: AppColor.white),
                 ),
               ],
             ),
