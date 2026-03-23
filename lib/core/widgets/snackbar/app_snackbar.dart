@@ -5,9 +5,7 @@ import '../../keys/keys.dart';
 class AppSnackBar {
   final String message;
 
-  AppSnackBar({
-    required this.message,
-  });
+  AppSnackBar({required this.message});
 
   static show(
     String message, {
@@ -17,7 +15,7 @@ class AppSnackBar {
   }) {
     final snackBar = SnackBar(
       backgroundColor: backgroundColor ?? Colors.black,
-      behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.fixed,
       content: Text(
         message,
         style: TextStyle(

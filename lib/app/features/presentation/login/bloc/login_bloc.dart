@@ -2,6 +2,7 @@ import 'package:crypto_lens/app/features/data/repository/auth_repository.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_event.dart';
 import 'package:crypto_lens/app/features/presentation/login/bloc/login_state.dart';
 import 'package:crypto_lens/core/result/result.dart';
+import 'package:crypto_lens/core/widgets/snackbar/app_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +33,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(
             state.copyWith(errorMessage: "Please enter email and password."),
           );
+          AppSnackBar.show('Please enter email and password.!');
+
           return;
         }
         emit(
@@ -47,9 +50,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           return;
         } else {
           emit(state.copyWith(isLoading: false, errorMessage: result.message));
+          AppSnackBar.show(
+            'Your email address or password is incorrect. Please try again.',
+          );
         }
       } catch (e) {
         emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+        AppSnackBar.show('Somethings not right—try again');
       }
     });
   }

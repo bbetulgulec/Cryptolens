@@ -52,28 +52,30 @@ class AppCardWidget extends StatelessWidget {
               AppTextWidget.bold(title, color: AppColor.white),
 
               AppTextWidget.medium(titleDesc, color: AppColor.skyBlue),
-              SizedBox(height: context.height * 0.08),
+              SizedBox(height: context.height * 0.06),
               AppTextFieldWidget(text: emailText, onChanged: onEmailChanged),
-              SizedBox(height: context.height * 0.05),
+              SizedBox(height: context.height * 0.04),
               AppTextFieldWidget(
                 text: passwordText,
                 onChanged: onPasswordChanged,
+                isPassword: true,
               ),
-              SizedBox(height: context.height * 0.05),
+              SizedBox(height: context.height * 0.04),
               if (againPasswordText != null) ...[
                 AppTextFieldWidget(
                   text: againPasswordText!,
                   onChanged: onPasswordAgainChanged,
+                  isPassword: true,
                 ),
               ],
-              SizedBox(height: context.height * 0.05),
+              SizedBox(height: context.height * 0.04),
 
               AppButtonGradientWidget(
                 buttonText: buttonText,
                 onPressed: onPressed,
               ),
 
-              SizedBox(height: context.height * 0.03),
+              SizedBox(height: context.height * 0.02),
               GestureDetector(
                 onTap: onTap,
                 child: RichText(

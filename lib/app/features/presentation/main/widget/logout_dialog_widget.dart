@@ -5,13 +5,17 @@ import 'package:crypto_lens/app/common/constants/app_color.dart';
 import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 
 class LogoutDialogWidget extends StatelessWidget {
-  const LogoutDialogWidget({super.key});
+  final VoidCallback onChanged;
+  const LogoutDialogWidget({super.key, required this.onChanged});
 
-  // Statik metod ile her yerden kolayca çağıralım
-  static Future<void> show(BuildContext context) {
+  static Future<void> show(
+    BuildContext context, {
+    required VoidCallback onChanged,
+  }) {
     return showDialog<void>(
       context: context,
-      builder: (BuildContext context) => const LogoutDialogWidget(),
+      builder: (BuildContext context) =>
+          LogoutDialogWidget(onChanged: onChanged), 
     );
   }
 
@@ -55,9 +59,7 @@ class LogoutDialogWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: onChanged,
                     child: AppTextWidget.semiBold(
                       "Logout",
                       color: AppColor.red,

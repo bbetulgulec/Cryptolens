@@ -3,6 +3,7 @@ import 'package:crypto_lens/app/features/presentation/favorites/view/favorites_v
 import 'package:crypto_lens/app/features/presentation/home/view/home_view.dart';
 import 'package:crypto_lens/app/features/presentation/login/view/login_view.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
+import 'package:crypto_lens/app/features/presentation/main/bloc/main_event.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_state.dart';
 import 'package:crypto_lens/app/features/presentation/main/widget/bottom_bar_widget.dart';
 import 'package:crypto_lens/app/features/presentation/main/widget/logout_dialog_widget.dart';
@@ -22,7 +23,7 @@ class MainView extends StatelessWidget {
       child: BlocConsumer<MainBloc, MainState>(
         listener: (context, state) {
           if (state.logoutSuccessful) {
-            AppLogger.instance.log("çıKIŞ gerçekten başarılı!");
+            AppLogger.instance.log("Logout  successful!");
             Navigation.pushReplace(page: const LoginView());
           }
           if (state.errorMessage != null) {
@@ -40,12 +41,16 @@ class MainView extends StatelessWidget {
               backgroundColor: Colors.transparent,
               actions: [
                 IconButton(
-                  onPressed: () => LogoutDialogWidget.show(context),
+                  onPressed: () => LogoutDialogWidget.show(
+                    context,
+                    onChanged: () {
+                      context.read<MainBloc>().add(const Logout());
+                    },
+                  ),
                   icon: Icon(Icons.logout_outlined),
                 ),
               ],
             ),
-            // BLoC'tan gelen selectedIndex'e göre sayfayı listeden seçiyoruz
             body: pages[state.selectedIndex],
             bottomNavigationBar: const BottomBarWidget(),
           );

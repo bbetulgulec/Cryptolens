@@ -1,8 +1,9 @@
 import 'package:crypto_lens/app/features/data/repository/auth_repository.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_event.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_state.dart';
+import 'package:crypto_lens/core/helpers/error_message_helper.dart';
 import 'package:crypto_lens/core/result/result.dart';
-import 'package:flutter/rendering.dart';
+import 'package:crypto_lens/core/widgets/snackbar/app_snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -27,31 +28,28 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       );
     });
     on<RegisterSubmitted>((event, emit) async {
-      debugPrint("REGISTER TIKLANDI");
       try {
         if (state.password != state.passwordAgain) {
-          emit(state.copyWith(errorMessage: "Passwords do not match!"));
+          AppSnackBar.show('The passwords dont match!');
           return;
         }
-        emit(
-          state.copyWith(
-            isLoading: true,
-            errorMessage: null,
-            isSuccessfull: false,
-          ),
-        );
+        emit(state.copyWith(isLoading: true, isSuccessfull: false));
+
         final result = await _authRepository.register(
           state.email,
           state.password,
         );
+
         if (result is SuccessDataResult) {
           emit(state.copyWith(isLoading: false, isSuccessfull: true));
-          return;
+          AppSnackBar.show(ErrorMessageHelper.parse("Account Created"));
         } else {
-          emit(state.copyWith(isLoading: false, errorMessage: result.message));
+          AppSnackBar.show(ErrorMessageHelper.parse(result.message ?? ''));
+          emit(state.copyWith(isLoading: false));
         }
       } catch (e) {
-        emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+        AppSnackBar.show(ErrorMessageHelper.parse(e.toString()));
+        emit(state.copyWith(isLoading: false));
       }
     });
   }

@@ -6,6 +6,7 @@ import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
 import 'package:crypto_lens/app/features/presentation/login/view/login_view.dart';
 import 'package:crypto_lens/core/helpers/navigation_helper/navigation_helper.dart';
+import 'package:crypto_lens/core/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: Navigation.navigationKey,
         theme: AppThemeData.themeData,
+        scaffoldMessengerKey: AppKeys.scaffoldMessengerKey,
+
         debugShowCheckedModeBanner: false,
         home: const LoginView(),
       ),

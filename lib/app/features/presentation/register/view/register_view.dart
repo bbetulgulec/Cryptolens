@@ -20,7 +20,10 @@ class RegisterView extends StatelessWidget {
     return BlocProvider<RegisterBloc>(
       create: (context) => getIt<RegisterBloc>(),
       child: Scaffold(
-        body: BlocBuilder<RegisterBloc, RegisterState>(
+        body: BlocConsumer<RegisterBloc, RegisterState>(
+          listener: (context, state) {
+            if (state.isSuccessfull) Navigation.ofPop();
+          },
           builder: (context, state) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,8 +58,6 @@ class RegisterView extends StatelessWidget {
                       .add(RegisterFieldChanged(passwordAgain: val)),
                   onPressed: () {
                     context.read<RegisterBloc>().add(const RegisterSubmitted());
-
-                    Navigation.ofPop();
                   },
                   onTap: () {
                     AppLogger.instance.log("redirected to the login page");

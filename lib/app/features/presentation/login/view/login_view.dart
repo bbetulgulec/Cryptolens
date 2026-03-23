@@ -11,6 +11,7 @@ import 'package:crypto_lens/core/extensions/build_context_extensions.dart'; // c
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:crypto_lens/core/helpers/navigation_helper/navigation_helper.dart';
 import 'package:crypto_lens/core/logger/app_logger.dart';
+import 'package:crypto_lens/core/widgets/snackbar/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,18 +24,18 @@ class LoginView extends StatelessWidget {
       create: (context) => getIt<LoginBloc>(),
       child: Scaffold(
         body: BlocConsumer<LoginBloc, LoginState>(
+          listenWhen: (previous, current) =>
+              (previous.errorMessage != current.errorMessage &&
+                  current.errorMessage != null) ||
+              previous.isSuccessfull != current.isSuccessfull, 
           listener: (context, state) {
             if (state.isSuccessfull) {
-              AppLogger.instance.log("Giriş gerçekten başarılı!");
+              AppLogger.instance.log("Login successful");
               Navigation.pushReplace(page: const MainView());
+              AppSnackBar.show('Login successful');
             }
             if (state.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage!),
-                  backgroundColor: Colors.red,
-                ),
-              );
+              AppSnackBar.show(state.errorMessage!);
             }
           },
           builder: (context, state) {
