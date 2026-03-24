@@ -100,7 +100,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(isBottomSheetLoading: false));
       }
     }, transformer: debounce(const Duration(milliseconds: 400)));
-    on<ToggleFavorite>((event, emit) async {
+    on<HomeToggleFavorite>((event, emit) async {
       // 1. Mevcut favorileri kopyala (Referans hatası olmaması için toList() yapıyoruz)
       final List<String> currentFavorites = List.from(state.favoriteUuids);
 

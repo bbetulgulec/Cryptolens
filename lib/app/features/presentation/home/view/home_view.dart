@@ -72,12 +72,10 @@ class HomeView extends StatelessWidget {
                       ratio: "${coin.change}%",
                       isFavorite: state.favoriteUuids.contains(coin.uuid),
                       onTap: () {
-                        // 1. Detayı çekmesi için event'i fırlat
                         context.read<HomeBloc>().add(
                           FetchCoinDetail(uuid: coin.uuid, time: "7d"),
                         );
 
-                        // 2. Saf Widget'ı sayfanın kendi Bloc'uyla sarmalayarak aç
                         BottomSheetWidget.show(
                           context,
                           child: BlocBuilder<HomeBloc, HomeState>(
@@ -101,7 +99,7 @@ class HomeView extends StatelessWidget {
                       },
                       onFavoriteTap: () {
                         context.read<HomeBloc>().add(
-                          ToggleFavorite(uuid: coin.uuid),
+                          HomeToggleFavorite(uuid: coin.uuid),
                         );
                       },
                     );

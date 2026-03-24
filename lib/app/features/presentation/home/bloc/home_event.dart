@@ -21,13 +21,10 @@ class FetchCoinDetail extends HomeEvent {
   List<Object?> get props => [uuid, time];
 }
 
-class ToggleFavorite extends HomeEvent {
+class HomeToggleFavorite extends HomeEvent {
   final String uuid;
 
-  const ToggleFavorite({required this.uuid});
-
-  @override
-  List<Object?> get props => [uuid];
+  HomeToggleFavorite({required this.uuid});
 }
 
 class Filtered extends HomeEvent {

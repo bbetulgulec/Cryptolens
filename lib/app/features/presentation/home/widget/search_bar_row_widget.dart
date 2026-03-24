@@ -3,6 +3,7 @@ import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/widget/filter_bottomsheet_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
+import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,6 +52,6 @@ class SearchBarRowWidget extends StatelessWidget {
           child: const Icon(Icons.tune, color: Colors.white),
         ),
       ],
-    );
+    ).symmetricPadding(horizontal: context.width * 0.02);
   }
 }

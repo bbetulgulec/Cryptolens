@@ -6,6 +6,7 @@ import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_b
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_event.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_state.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
+import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart';
 import 'package:crypto_lens/app/features/presentation/home/widget/assets_card_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
@@ -43,8 +44,6 @@ class FavoritesView extends StatelessWidget {
 
                       onTap: () {
                         final favBloc = context.read<FavoritesBloc>();
-
-                        // İlk açılış verisini iste
                         favBloc.add(
                           FetchFavoriteCoinDetail(uuid: coin.uuid, time: "7d"),
                         );
@@ -56,10 +55,8 @@ class FavoritesView extends StatelessWidget {
                               return BottomSheetWidget(
                                 coin: state.coinDetail ?? coin,
                                 isLoading: state.isLoading,
-                                selectedTime: state
-                                    .selectedTime, // State'ten gelen seçili zamanı basar
+                                selectedTime: state.selectedTime,
                                 onTimeChanged: (newTime) {
-                                  // İŞTE BURASI: Butona basınca bu bloc tetiklenecek!
                                   favBloc.add(
                                     FetchFavoriteCoinDetail(
                                       uuid: coin.uuid,
@@ -79,8 +76,14 @@ class FavoritesView extends StatelessWidget {
                       ratio: "${coin.change}%",
                       isFavorite: true,
                       onFavoriteTap: () {
+                        final uuid = coin.uuid;
+
                         context.read<FavoritesBloc>().add(
-                          ToggleFavorite(uuid: coin.uuid),
+                          ToggleFavorite(uuid: uuid),
+                        );
+
+                        context.read<HomeBloc>().add(
+                          HomeToggleFavorite(uuid: uuid),
                         );
                       },
                     );

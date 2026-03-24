@@ -16,7 +16,6 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
   FavoritesBloc(this._coinsRepository) : super(FavoriteState.initial()) {
     {
       on<FetchFavoritesData>((event, emit) async {
-        // 1. Önce Hive'daki güncel favori listesini al
         final currentFavorites = _coinsRepository.getFavorites();
 
         // 2. EĞER elinde zaten coin verisi varsa ve "Zorla Yenile (isRefresh)" denmediyse:
@@ -58,7 +57,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
               state.copyWith(
                 isLoading: false,
                 coins: onlyFavorites, // Favori objelerini sakla
-                favoriteUuids: currentFavorites, // UUID listesini sakla
+                favoriteUuids: currentFavorites,
               ),
             );
           } else {
@@ -72,7 +71,6 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
         // 1. Mevcut listeyi kopyala
         final List<String> currentFavorites = List.from(state.favoriteUuids);
 
-        // 2. ANINDA UI güncelle
         if (currentFavorites.contains(event.uuid)) {
           currentFavorites.remove(event.uuid);
         } else {
@@ -116,7 +114,6 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoriteState> {
           emit(state.copyWith(isLoading: false));
         }
       }, transformer: debounce(const Duration(milliseconds: 400)));
-      // FavoritesBloc constructor içine ekle:
       on<SyncWithHome>((event, emit) {
         // 1. Hive'dan güncel favori UUID'lerini al
         final currentFavorites = _coinsRepository.getFavorites();

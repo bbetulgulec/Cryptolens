@@ -24,7 +24,7 @@ class FetchFavoriteCoinDetail extends FavoritesEvent {
 }
 
 class SyncWithHome extends FavoritesEvent {
-  final List<CoinsModel> allCoins; // Home sayfasındaki tüm coinler
+  final List<CoinsModel> allCoins; 
 
   const SyncWithHome(this.allCoins);
 

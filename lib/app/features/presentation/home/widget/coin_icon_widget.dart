@@ -21,7 +21,7 @@ class CoinIconWidget extends StatelessWidget {
               url!,
               fit: BoxFit.contain,
               placeholderBuilder: (_) =>
-                  const CircularProgressIndicator(strokeWidth: 2),
+                  const Icon(Icons.image),
               errorBuilder: (_, _, _) => _buildPlaceholder(),
             )
           : Image.network(
