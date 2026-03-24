@@ -1,4 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/home/widget/filter_bottomsheet_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
@@ -15,7 +16,7 @@ class SearchBarRowWidget extends StatelessWidget {
       children: [
         Expanded(
           child: SearchBar(
-            hintText: "Search Assets",
+            hintText: AppStrings.searchAssets,
             hintStyle: const WidgetStatePropertyAll(
               TextStyle(color: AppColor.richBlack),
             ),

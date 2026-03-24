@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_event.dart';
 import 'package:crypto_lens/app/features/presentation/main/bloc/main_state.dart';
@@ -24,9 +25,9 @@ class BottomBarWidget extends StatelessWidget {
             destinations: [
               NavigationDestination(
                 icon: Icon(Icons.account_balance_wallet),
-                label: "Home",
+                label: AppStrings.home,
               ),
-              NavigationDestination(icon: Icon(Icons.star), label: "Favorites"),
+              NavigationDestination(icon: Icon(Icons.star), label: AppStrings.favorites),
             ],
           );
         },

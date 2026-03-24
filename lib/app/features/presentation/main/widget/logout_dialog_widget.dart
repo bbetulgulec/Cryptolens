@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,11 @@ class LogoutDialogWidget extends StatelessWidget {
             children: [
               const Icon(Icons.logout_rounded, color: AppColor.red, size: 40),
               SizedBox(height: context.height * 0.04),
-              AppTextWidget.bold("Logout", color: AppColor.white),
+              AppTextWidget.bold(AppStrings.logout, color: AppColor.white),
               SizedBox(height: context.height * 0.01),
 
               AppTextWidget.medium(
-                "Are you sure you want to log out?",
+                AppStrings.wantTologOut,
                 color: AppColor.cloudyBlue,
                 textAlign: TextAlign.center,
               ),
@@ -46,7 +47,7 @@ class LogoutDialogWidget extends StatelessWidget {
                   TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: AppTextWidget.semiBold(
-                      "Cancel",
+                      AppStrings.cancel,
                       color: AppColor.cloudyBlue,
                     ),
                   ),
@@ -61,7 +62,7 @@ class LogoutDialogWidget extends StatelessWidget {
                     ),
                     onPressed: onChanged,
                     child: AppTextWidget.semiBold(
-                      "Logout",
+                      AppStrings.logout,
                       color: AppColor.red,
                     ),
                   ),

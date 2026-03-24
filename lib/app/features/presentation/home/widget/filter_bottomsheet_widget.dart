@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/app/features/presentation/home/widget/build_option_widget.dart';
 import 'package:crypto_lens/app/features/presentation/home/widget/filter_button_widget.dart';
@@ -63,45 +64,52 @@ class _FilterBottomSheetWidgetState extends State<FilterBottomSheetWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppTextWidget.semiBold("Sort Options", color: AppColor.cloudyBlue),
+        AppTextWidget.semiBold(
+          AppStrings.sortOptions,
+          color: AppColor.cloudyBlue,
+        ),
         const Divider(color: AppColor.skyBlue, height: 30),
 
         // Yön Seçimi
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildDirectionChip("Descending", "desc", Icons.trending_down),
-            _buildDirectionChip("Ascending", "asc", Icons.trending_up),
+            _buildDirectionChip(
+              AppStrings.descending,
+              "desc",
+              Icons.trending_down,
+            ),
+            _buildDirectionChip(AppStrings.ascending, "asc", Icons.trending_up),
           ],
         ),
         const SizedBox(height: 20),
 
         BuildOptionWidget(
-          title: "Market Cap",
+          title: AppStrings.marketCap,
           isSelected: localOrderBy == "marketCap",
           icon: Icons.pie_chart,
           onTap: () => setState(() => localOrderBy = "marketCap"),
         ),
         BuildOptionWidget(
-          title: "Price",
+          title: AppStrings.price,
           isSelected: localOrderBy == "price",
           icon: Icons.attach_money,
           onTap: () => setState(() => localOrderBy = "price"),
         ),
         BuildOptionWidget(
-          title: "24h Volume",
+          title: AppStrings.volume24h,
           isSelected: localOrderBy == "24hVolume",
           icon: Icons.pie_chart,
           onTap: () => setState(() => localOrderBy = "24hVolume"),
         ),
         BuildOptionWidget(
-          title: "Change (%)",
+          title: AppStrings.change,
           isSelected: localOrderBy == "change",
           icon: Icons.attach_money,
           onTap: () => setState(() => localOrderBy = "change"),
         ),
         BuildOptionWidget(
-          title: "Listing Date",
+          title: AppStrings.listingDate,
           isSelected: localOrderBy == "listedAt",
           icon: Icons.attach_money,
           onTap: () => setState(() => localOrderBy = "listedAt"),

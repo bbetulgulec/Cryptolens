@@ -1,3 +1,4 @@
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/features/data/repository/auth_repository.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_event.dart';
 import 'package:crypto_lens/app/features/presentation/register/bloc/register_state.dart';
@@ -30,7 +31,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterSubmitted>((event, emit) async {
       try {
         if (state.password != state.passwordAgain) {
-          AppSnackBar.show('The passwords dont match!');
+          AppSnackBar.show(AppStrings.passwordsDontMatch);
           return;
         }
         emit(state.copyWith(isLoading: true, isSuccessfull: false));
@@ -42,7 +43,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
         if (result is SuccessDataResult) {
           emit(state.copyWith(isLoading: false, isSuccessfull: true));
-          AppSnackBar.show(ErrorMessageHelper.parse("Account Created"));
+          AppSnackBar.show(ErrorMessageHelper.parse(AppStrings.accountCreated));
         } else {
           AppSnackBar.show(ErrorMessageHelper.parse(result.message ?? ''));
           emit(state.copyWith(isLoading: false));

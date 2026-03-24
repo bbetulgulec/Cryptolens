@@ -1,4 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class FilterButtonWidget extends StatelessWidget {
@@ -26,7 +27,7 @@ class FilterButtonWidget extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: const Text(
-          "Apply Filters",
+          AppStrings.applyFilters,
           style: TextStyle(
             color: AppColor.white,
             fontSize: 16,

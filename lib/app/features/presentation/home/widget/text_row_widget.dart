@@ -1,4 +1,5 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class TextRowWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
 
       children: [
-        AppTextWidget.bold("Live Assets", color: AppColor.white),
+        AppTextWidget.bold(AppStrings.liveAssets, color: AppColor.white),
         AppTextWidget.medium(total24hVolume, color: AppColor.neonBlue),
       ],
     );

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
@@ -35,7 +36,7 @@ class LoginView extends StatelessWidget {
             if (state.isSuccessfull) {
               AppLogger.instance.log("Login successful");
               Navigation.pushAndRemoveAll(page: const MainView());
-              AppSnackBar.show('Login successful');
+              AppSnackBar.show(AppStrings.loginSuccessfful);
             }
             if (state.errorMessage != null) {
               AppSnackBar.show(state.errorMessage!);
@@ -58,13 +59,13 @@ class LoginView extends StatelessWidget {
                       const TitleTextWidget(),
 
                       AppCardWidget(
-                        title: "Welcome",
-                        titleDesc: "Access your secure digital vault",
-                        emailText: "Email Address : ",
-                        passwordText: "Password : ",
-                        buttonText: "Login",
-                        richTextFirst: 'New to The CryptoLens?',
-                        richTextSecond: '  Create Account',
+                        title: AppStrings.welcome,
+                        titleDesc: AppStrings.digital,
+                        emailText: AppStrings.emailAddress,
+                        passwordText: AppStrings.password,
+                        buttonText: AppStrings.login,
+                        richTextFirst: AppStrings.newCryptolens,
+                        richTextSecond: AppStrings.createAccount,
 
                         onEmailChanged: (val) {
                           context.read<LoginBloc>().add(

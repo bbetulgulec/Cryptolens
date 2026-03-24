@@ -12,7 +12,6 @@ class HomeState extends Equatable {
   final String? selectedTime;
   final List<String> favoriteUuids;
   final bool successfullFiltered;
-  // YENİ EKLENENLER: UI'daki seçimleri hafızada tutmak için
   final String orderBy;
   final String orderDirection;
   final String searchQuery;

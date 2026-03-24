@@ -1,12 +1,11 @@
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/common/widgets/app_text_widget.dart';
 import 'package:crypto_lens/app/common/widgets/bottom_sheet/bottom_sheet_widget.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_bloc.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_event.dart';
 import 'package:crypto_lens/app/features/presentation/favorites/bloc/favorites_state.dart';
 import 'package:crypto_lens/app/features/presentation/home/bloc/home_bloc.dart';
-import 'package:crypto_lens/app/features/presentation/home/bloc/home_event.dart'
-    hide FetchCoinDetail, ToggleFavorite;
 import 'package:crypto_lens/app/features/presentation/home/widget/assets_card_widget.dart';
 import 'package:crypto_lens/core/extensions/build_context_extensions.dart';
 import 'package:crypto_lens/core/extensions/widgets/padding_extensions.dart';
@@ -27,7 +26,7 @@ class FavoritesView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppTextWidget.big("Favorites", color: AppColor.white),
+          AppTextWidget.big(AppStrings.favorites, color: AppColor.white),
           Expanded(
             child: BlocBuilder<FavoritesBloc, FavoriteState>(
               builder: (context, state) {

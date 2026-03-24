@@ -117,15 +117,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
     on<Filtered>((event, emit) async {
       emit(state.copyWith(isLoading: true));
-      // 1. Önce State'teki seçimleri güncelle ve loading başlat
-      /* emit(
-        state.copyWith(
-          isLoading: true,
-          orderBy: event.orderBy,
-          orderDirection: event.orderDirection,
-        ),
-      );
-      */
+      
 
       // 2. Repository'den yeni filtrelerle veriyi çek
       final result = await _coinsRepository.fetchLiveAssetsData(

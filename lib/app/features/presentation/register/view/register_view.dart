@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:crypto_lens/app/common/constants/app_color.dart';
+import 'package:crypto_lens/app/common/constants/app_strings.dart';
 import 'package:crypto_lens/app/common/enum/app_image.dart';
 import 'package:crypto_lens/app/common/get_it/get_it.dart';
 import 'package:crypto_lens/app/common/widgets/app_card_widget.dart';
@@ -45,14 +46,14 @@ class RegisterView extends StatelessWidget {
                       TitleTextWidget(),
 
                       AppCardWidget(
-                        title: "Create Account",
-                        titleDesc: "Join the future of digital assets.",
-                        emailText: "Email Address : ",
-                        passwordText: "Password : ",
-                        againPasswordText: "Password (Repeat) : ",
-                        buttonText: "Register",
-                        richTextFirst: 'Already have an account? ',
-                        richTextSecond: '  Login',
+                        title: AppStrings.createAccount,
+                        titleDesc: AppStrings.joinTheFuture,
+                        emailText: AppStrings.emailAddress,
+                        passwordText: AppStrings.password,
+                        againPasswordText: AppStrings.passwordRepeat,
+                        buttonText: AppStrings.register,
+                        richTextFirst: AppStrings.alreadyHaveAccount,
+                        richTextSecond:AppStrings.loginSpace,
                         onEmailChanged: (val) => context
                             .read<RegisterBloc>()
                             .add(RegisterFieldChanged(email: val)),
