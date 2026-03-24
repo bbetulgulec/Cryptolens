@@ -4,6 +4,7 @@ import 'package:crypto_lens/core/helpers/device/device_info_helper.dart';
 import 'package:crypto_lens/core/services/hive/hive_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,7 +20,7 @@ final class AppFunctions {
     );
 
     ServiceLocator.setup();
-
+    await dotenv.load(fileName: ".env");
     await DeviceInfoHelper.instance.init();
     Config.currentEnvironment = Environment.development;
     await getIt<HiveService>().init();

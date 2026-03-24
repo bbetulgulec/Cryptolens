@@ -46,6 +46,7 @@ dependencies:
   flutter_svg: ^2.2.4
   hive_flutter: ^1.1.0
   rxdart: ^0.28.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
